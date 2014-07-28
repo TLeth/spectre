@@ -13,8 +13,6 @@ void main(List<String> args) {
   addTask('analyze_lib', createAnalyzerTask(_getLibs));
   addTask('analyze_test', createAnalyzerTask(['test/test_runner.dart']));
 
-  addTask('docs', createDartDocTask(_getLibs));
-
   addTask('test', createUnitTestTask(test_runner.testCore));
 
   runHop(args);
