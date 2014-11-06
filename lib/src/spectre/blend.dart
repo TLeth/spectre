@@ -88,24 +88,23 @@ class Blend extends Enum {
   static const int Default = One;
 
   static Map<String, int> _values = {
-    'Blend.Zero' : Blend.Zero,
-    'Blend.One' : Blend.One,
-    'Blend.SourceColor' : Blend.SourceColor,
-    'Blend.InverseSourceColor' : Blend.InverseSourceColor,
-    'Blend.SourceAlpha' : Blend.SourceAlpha,
-    'Blend.InverseSourceAlpha' : Blend.InverseSourceAlpha,
-    'Blend.DestinationAlpha' : Blend.DestinationAlpha,
-    'Blend.InverseDestinationAlpha' : Blend.InverseDestinationAlpha,
-    'Blend.DestinationColor' : Blend.DestinationColor,
-    'Blend.InverseDestinationColor' : Blend.InverseDestinationColor,
-    'Blend.SourceAlphaSaturation' : Blend.SourceAlphaSaturation,
-    'Blend.BlendFactor' : Blend.BlendFactor,
-    'Blend.InverseBlendFactor' : Blend.InverseBlendFactor
+    'Blend.Zero': Blend.Zero,
+    'Blend.One': Blend.One,
+    'Blend.SourceColor': Blend.SourceColor,
+    'Blend.InverseSourceColor': Blend.InverseSourceColor,
+    'Blend.SourceAlpha': Blend.SourceAlpha,
+    'Blend.InverseSourceAlpha': Blend.InverseSourceAlpha,
+    'Blend.DestinationAlpha': Blend.DestinationAlpha,
+    'Blend.InverseDestinationAlpha': Blend.InverseDestinationAlpha,
+    'Blend.DestinationColor': Blend.DestinationColor,
+    'Blend.InverseDestinationColor': Blend.InverseDestinationColor,
+    'Blend.SourceAlphaSaturation': Blend.SourceAlphaSaturation,
+    'Blend.BlendFactor': Blend.BlendFactor,
+    'Blend.InverseBlendFactor': Blend.InverseBlendFactor
   };
 
   /// Convert a [String] to a [Blend].
-  static int parse(String name, [int d = Default]) =>
-      Enum._parse(_values, name, d);
+  static int parse(String name, [int d = Default]) => Enum._parse(_values, name, d);
   /// Convert a [Blend] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

@@ -45,8 +45,7 @@ class Float32ListHelpers {
 class Animation {
   final String name;
   final List<BoneAnimation> _boneData;
-  Animation(this.name, final int length) :
-      _boneData = new List<BoneAnimation>(length) {
+  Animation(this.name, final int length) : _boneData = new List<BoneAnimation>(length) {
   }
   BoneAnimation getDataForBone(int boneIndex) {
     if (boneIndex >= _boneData.length) {
@@ -56,7 +55,7 @@ class Animation {
   }
   double _runTime = 0.0;
   double get runTime => _runTime;
-  double _timeScale = 1.0/24.0;
+  double _timeScale = 1.0 / 24.0;
   double get timeScale => _timeScale;
 }
 
@@ -67,8 +66,7 @@ class SkinnedMesh extends SpectreMesh {
   VertexBuffer get vertexArray => _deviceVertexBuffer;
   final List<Map> meshes = new List<Map>();
 
-  SkinnedMesh(String name, GraphicsDevice device) :
-      super(name, device) {
+  SkinnedMesh(String name, GraphicsDevice device) : super(name, device) {
     _deviceVertexBuffer = new VertexBuffer(name, device);
     _deviceIndexBuffer = new IndexBuffer(name, device);
     _deviceSkinningBuffer = new VertexBuffer('${name}_skinning', device);
@@ -106,8 +104,7 @@ class SkinnedMesh extends SpectreMesh {
   // current time.
   double _currentTime = 0.0;
 
-  final Map<String, SkeletonAnimation> animations =
-      new Map<String,SkeletonAnimation>();
+  final Map<String, SkeletonAnimation> animations = new Map<String, SkeletonAnimation>();
   SkeletonAnimation _currentAnimation;
   String get currentAnimation => _currentAnimation.name;
   set currentAnimation(String name) {
@@ -131,7 +128,7 @@ class SkinnedMesh extends SpectreMesh {
   final Float32List vertex = new Float32List(12);
   // Transform baseVertexData into vertexData based on bone hierarchy.
   void _updateVertices(PosedSkeleton pose) {
-    int numVertices = baseVertexData.length~/_floatsPerVertex;
+    int numVertices = baseVertexData.length ~/ _floatsPerVertex;
     int vertexBase = 0;
     sw.reset();
     sw.start();
@@ -142,21 +139,19 @@ class SkinnedMesh extends SpectreMesh {
       vertex[2] = 0.0;
       vertex[3] = 0.0;
       for (int i = 4; i < _floatsPerVertex; i++) {
-        vertexData[i] = baseVertexData[vertexBase+i];
+        vertexData[i] = baseVertexData[vertexBase + i];
       }
-      int skinningDataOffset = v*4;
+      int skinningDataOffset = v * 4;
       Matrix44Operations.zero(m, 0);
       for (int i = 0; i < 4; ++i) {
         final int boneId = boneData[skinningDataOffset];
         final double weight = weightData[skinningDataOffset];
-        Float32ListHelpers.addScale44(m, pose.skinningTransforms[boneId],
-                                      weight);
+        Float32ListHelpers.addScale44(m, pose.skinningTransforms[boneId], weight);
         skinningDataOffset++;
       }
-      Matrix44Operations.transform4(vertex, 0, m, 0, baseVertexData,
-                                    vertexBase);
+      Matrix44Operations.transform4(vertex, 0, m, 0, baseVertexData, vertexBase);
       for (int i = 0; i < 4; i++) {
-        vertexData[vertexBase+i] = vertex[i];
+        vertexData[vertexBase + i] = vertex[i];
       }
       vertexBase += _floatsPerVertex;
     }
@@ -168,14 +163,14 @@ class SkinnedMesh extends SpectreMesh {
   final Float32x4List m4 = new Float32x4List(4);
   final Float32x4List vertex4 = new Float32x4List(3);
   void _updateVerticesSIMD(PosedSkeleton pose) {
-    int numVertices = baseVertexData.length~/_floatsPerVertex;
+    int numVertices = baseVertexData.length ~/ _floatsPerVertex;
     int vertexBase = 0;
     sw.reset();
     sw.start();
     for (int v = 0; v < numVertices; v++) {
-      vertexData4[1] = baseVertexData4[vertexBase+1];
-      vertexData4[2] = baseVertexData4[vertexBase+2];
-      int skinningDataOffset = v*4;
+      vertexData4[1] = baseVertexData4[vertexBase + 1];
+      vertexData4[2] = baseVertexData4[vertexBase + 2];
+      int skinningDataOffset = v * 4;
       Matrix44SIMDOperations.zero(m4, 0);
       for (int i = 0; i < 4; ++i) {
         final int boneId = boneData[skinningDataOffset];
@@ -188,8 +183,7 @@ class SkinnedMesh extends SpectreMesh {
         m4[3] += boneMatrix[3] * weight4;
         skinningDataOffset++;
       }
-      Matrix44SIMDOperations.transform4(vertex4, 0, m4, 0, baseVertexData4,
-                                        vertexBase);
+      Matrix44SIMDOperations.transform4(vertex4, 0, m4, 0, baseVertexData4, vertexBase);
       vertexData4[vertexBase] = vertex4[0];
       vertexBase += _floatsPerVertex ~/ 4;
     }
@@ -200,7 +194,7 @@ class SkinnedMesh extends SpectreMesh {
   // Set the vertices to the bind pose.
   // This resets a skinned mesh for GPU skinning
   void resetToBindPose() {
-    int numVertices = baseVertexData.length~/_floatsPerVertex;
+    int numVertices = baseVertexData.length ~/ _floatsPerVertex;
     int vertexBase = 0;
     for (int v = 0; v < numVertices; v++) {
       vertexData4[vertexBase] = baseVertexData4[vertexBase];
@@ -241,13 +235,12 @@ class SkinnedMeshInstance {
   }
 
   bool update(double dt, bool useSimd) {
-    if(_currentAnimation == null)
-      return false; // TODO: In this case the posedSkeleton should be set to all identity matricies
+    if (_currentAnimation == null) return false; // TODO: In this case the posedSkeleton should be set to all identity matricies
 
     double oldCurrentTime = currentTime;
     currentTime += dt * _currentAnimation.timeScale;
 
-    if(useSimd) {
+    if (useSimd) {
       mesh.skeletonPoserSIMD.pose(mesh.skeleton, _currentAnimation, posedSkeleton, _currentTime);
     } else {
       mesh.skeletonPoser.pose(mesh.skeleton, _currentAnimation, posedSkeleton, _currentTime);
@@ -269,9 +262,7 @@ void importAttribute(SkinnedMesh mesh, Map json) {
   String name = json['name'];
   int offset = json['offset'];
   int stride = json['stride'];
-  mesh.attributes[name] = new SpectreMeshAttribute(
-      name,
-      new VertexAttribute(0, 0, offset, stride, DataType.Float32, 4, false));
+  mesh.attributes[name] = new SpectreMeshAttribute(name, new VertexAttribute(0, 0, offset, stride, DataType.Float32, 4, false));
 }
 
 void importAnimationFrames(SkeletonAnimation animation, int boneId, Map ba) {
@@ -282,8 +273,7 @@ void importAnimationFrames(SkeletonAnimation animation, int boneId, Map ba) {
   List rotations = ba['rotations'];
   List scales = ba['scales'];
 
-  BoneAnimation boneData = new BoneAnimation('', boneId, positions, rotations,
-                                             scales);
+  BoneAnimation boneData = new BoneAnimation('', boneId, positions, rotations, scales);
   animation.boneList[boneId] = boneData;
 }
 
@@ -326,10 +316,10 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
   attributes.forEach((a) {
     importAttribute(mesh, a);
   });
-  mesh._floatsPerVertex = attributes[0]['stride']~/4;
+  mesh._floatsPerVertex = attributes[0]['stride'] ~/ 4;
 
   List vertices = json['vertices'];
-  mesh.vertexData4 = new Float32x4List(json['vertices'].length~/4);
+  mesh.vertexData4 = new Float32x4List(json['vertices'].length ~/ 4);
   mesh.baseVertexData4 = new Float32x4List(mesh.vertexData4.length);
   mesh.vertexData = new Float32List.view(mesh.vertexData4.buffer);
   mesh.baseVertexData = new Float32List.view(mesh.baseVertexData4.buffer);
@@ -337,11 +327,9 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
     mesh.vertexData[i] = json['vertices'][i].toDouble();
     mesh.baseVertexData[i] = json['vertices'][i].toDouble();
   }
-  mesh.vertexArray.uploadData(mesh.vertexData4,
-                              UsagePattern.DynamicDraw);
+  mesh.vertexArray.uploadData(mesh.vertexData4, UsagePattern.DynamicDraw);
   List indices = json['indices'];
-  mesh.indexArray.uploadData(new Uint16List.fromList(json['indices']),
-                             UsagePattern.StaticDraw);
+  mesh.indexArray.uploadData(new Uint16List.fromList(json['indices']), UsagePattern.StaticDraw);
   List meshes = json['meshes'];
   meshes.forEach((m) {
     importMesh(mesh, m);
@@ -388,12 +376,9 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
     List weights = json['vertexWeights'];
     assert(boneId.length == weights.length);
     mesh.boneData = new Int32List(boneId.length);
-    mesh.skinningData = new Float32List(boneId.length*2);
-    Float32List floatBoneData = new Float32List.view(mesh.skinningData.buffer,
-                                                     0,
-                                                     boneId.length);
-    mesh.weightData = new Float32List.view(mesh.skinningData.buffer,
-                                           boneId.length*4);
+    mesh.skinningData = new Float32List(boneId.length * 2);
+    Float32List floatBoneData = new Float32List.view(mesh.skinningData.buffer, 0, boneId.length);
+    mesh.weightData = new Float32List.view(mesh.skinningData.buffer, boneId.length * 4);
     for (int i = 0; i < boneId.length; i++) {
       mesh.boneData[i] = boneId[i].toInt();
       mesh.weightData[i] = weights[i].toDouble();
@@ -404,11 +389,8 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
     }
 
     // GPU-skinning specific attributes
-    mesh.attributes['vBoneIndices'] = new SpectreMeshAttribute('vBoneIndices',
-        new VertexAttribute(1, 0, 0, 16, DataType.Float32, 4, false));
-    mesh.attributes['vBoneWeights'] = new SpectreMeshAttribute('vBoneWeights',
-        new VertexAttribute(1, 0, boneId.length*4, 16, DataType.Float32, 4,
-                            false));
+    mesh.attributes['vBoneIndices'] = new SpectreMeshAttribute('vBoneIndices', new VertexAttribute(1, 0, 0, 16, DataType.Float32, 4, false));
+    mesh.attributes['vBoneWeights'] = new SpectreMeshAttribute('vBoneWeights', new VertexAttribute(1, 0, boneId.length * 4, 16, DataType.Float32, 4, false));
     mesh.skinningArray.uploadData(mesh.skinningData, UsagePattern.StaticDraw);
   }
   return mesh;

@@ -42,8 +42,8 @@ class DepthState {
 
   /// Creates an instance of [DepthState] that writes to the depth buffer.
   DepthState.depthWrite()
-    : _depthBufferEnabled = true,
-      _depthBufferWriteEnabled = true;
+      : _depthBufferEnabled = true,
+        _depthBufferWriteEnabled = true;
 
   /// Creates an instance of [DepthState] that does depth checks.
   DepthState.depthRead()
@@ -58,12 +58,16 @@ class DepthState {
   /// Whether depth buffering is enabled or disabled.
   /// The default is true.
   bool get depthBufferEnabled => _depthBufferEnabled;
-  set depthBufferEnabled(bool value) { _depthBufferEnabled = value; }
+  set depthBufferEnabled(bool value) {
+    _depthBufferEnabled = value;
+  }
 
   /// Whether writing to the depth buffer is enabled or disabled.
   /// The default is true.
   bool get depthBufferWriteEnabled => _depthBufferWriteEnabled;
-  set depthBufferWriteEnabled(bool value) { _depthBufferWriteEnabled = value; }
+  set depthBufferWriteEnabled(bool value) {
+    _depthBufferWriteEnabled = value;
+  }
 
   /// The comparison function for the depth-buffer test.
   /// The default is CompareFunction.LessEqual
@@ -80,10 +84,9 @@ class DepthState {
   dynamic toJson() {
     Map json = new Map();
 
-    json[_depthBufferEnabledName]      = _depthBufferEnabled;
+    json[_depthBufferEnabledName] = _depthBufferEnabled;
     json[_depthBufferWriteEnabledName] = _depthBufferWriteEnabled;
-    json[_depthBufferFunctionName]     =
-        CompareFunction.stringify(_depthBufferFunction);
+    json[_depthBufferFunctionName] = CompareFunction.stringify(_depthBufferFunction);
 
     return json;
   }
@@ -98,11 +101,9 @@ class DepthState {
     _depthBufferEnabled = (value != null) ? value : _depthBufferEnabled;
 
     value = values[_depthBufferWriteEnabledName];
-    _depthBufferWriteEnabled = (value != null) ?
-        value : _depthBufferWriteEnabled;
+    _depthBufferWriteEnabled = (value != null) ? value : _depthBufferWriteEnabled;
 
     value = values[_depthBufferFunctionName];
-    _depthBufferFunction = (value != null) ?
-        CompareFunction.parse(value) : _depthBufferFunction;
+    _depthBufferFunction = (value != null) ? CompareFunction.parse(value) : _depthBufferFunction;
   }
 }

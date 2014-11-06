@@ -30,13 +30,12 @@ class TextureMagFilter extends Enum {
   static const int Default = Linear;
 
   static Map<String, int> _values = {
-    'TextureMagFilter.Linear' : Linear,
-    'TextureMagFilter.Point' : Point,
+    'TextureMagFilter.Linear': Linear,
+    'TextureMagFilter.Point': Point,
   };
 
   /// Convert a [String] to a [TextureMagFilter].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [TextureMagFilter] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

@@ -49,7 +49,7 @@ class _DebugLineCollection {
     _lineObjects = new List<_DebugLineObject>();
   }
 
-  void startLineObject(double r, double g, double b, double a, double duration){
+  void startLineObject(double r, double g, double b, double a, double duration) {
     // Can't call recursively.
     assert(_lineObject == null);
     if (_freeLineObjects.length > 0) {
@@ -98,12 +98,12 @@ class _DebugLineCollection {
   }
 
   void update(num dt) {
-    for (int i = _lineObjects.length-1; i >= 0; i--) {
+    for (int i = _lineObjects.length - 1; i >= 0; i--) {
       _DebugLineObject lineObject = _lineObjects[i];
       lineObject.duration -= dt;
       if (lineObject.duration < 0.0) {
         freeLineObject(lineObject);
-        int last = _lineObjects.length-1;
+        int last = _lineObjects.length - 1;
         // Copy last over
         _lineObjects[i] = _lineObjects[last];
         _lineObjects.removeLast();
@@ -116,8 +116,7 @@ class _DebugLineCollection {
     addVertex(start.x, start.y, start.z);
   }
 
-  void _addLineRaw(double sx, double sy, double sz,
-                   double fx, double fy, double fz) {
+  void _addLineRaw(double sx, double sy, double sz, double fx, double fy, double fz) {
     addVertex(fx, fy, fz);
     addVertex(sx, sy, sz);
   }
@@ -132,23 +131,17 @@ class _DebugDrawLineManager {
 
   Float32List _vboStorage;
 
-  _DebugDrawLineManager(this.device, int maxVertices,
-                        ShaderProgram shaderProgram) {
+  _DebugDrawLineManager(this.device, int maxVertices, ShaderProgram shaderProgram) {
     if ((maxVertices & 0x1) != 0) {
       // Keep an even number of vertices.
       maxVertices += 1;
     }
-    _vboStorage = new Float32List(maxVertices*DebugDrawVertexSize);
+    _vboStorage = new Float32List(maxVertices * DebugDrawVertexSize);
     _lineMesh = new SingleArrayMesh('_DebugDrawLineManager', device);
     _lineMesh.primitiveTopology = PrimitiveTopology.Lines;
-    _lineMesh.vertexArray.allocate(_vboStorage.length*4,
-                                   UsagePattern.DynamicDraw);
-    _lineMesh.attributes['vPosition'] = new SpectreMeshAttribute(
-        'vPosition',
-        new VertexAttribute(0, 0, 0, 28, DataType.Float32, 3, false));
-    _lineMesh.attributes['vColor'] = new SpectreMeshAttribute(
-        'vColor',
-        new VertexAttribute(0, 0, 12, 28, DataType.Float32, 4, false));
+    _lineMesh.vertexArray.allocate(_vboStorage.length * 4, UsagePattern.DynamicDraw);
+    _lineMesh.attributes['vPosition'] = new SpectreMeshAttribute('vPosition', new VertexAttribute(0, 0, 0, 28, DataType.Float32, 3, false));
+    _lineMesh.attributes['vColor'] = new SpectreMeshAttribute('vColor', new VertexAttribute(0, 0, 12, 28, DataType.Float32, 4, false));
     _lineMeshInputLayout = new InputLayout('_DebugDrawLineManager', device);
     _lineMeshInputLayout.shaderProgram = shaderProgram;
     _lineMeshInputLayout.mesh = _lineMesh;
@@ -177,7 +170,7 @@ class _DebugDrawLineManager {
       }
     }
 
-    if(vertexBufferCursor != 0) {
+    if (vertexBufferCursor != 0) {
       _lineMesh.vertexArray.uploadSubData(0, _vboStorage);
     }
     _lineMesh.count = vertexBufferCursor ~/ DebugDrawVertexSize;
@@ -250,12 +243,8 @@ class DebugDrawManager {
     _lineShaderProgram.vertexShader = _lineVertexShader;
     _lineShaderProgram.fragmentShader = _lineFragmentShader;
     _lineShaderProgram.link();
-    _depthEnabledLines = new _DebugDrawLineManager(device,
-                                                   maxVertices,
-                                                   _lineShaderProgram);
-    _depthDisabledLines = new _DebugDrawLineManager(device,
-                                                    maxVertices,
-                                                    _lineShaderProgram);
+    _depthEnabledLines = new _DebugDrawLineManager(device, maxVertices, _lineShaderProgram);
+    _depthDisabledLines = new _DebugDrawLineManager(device, maxVertices, _lineShaderProgram);
   }
 
 
@@ -265,11 +254,9 @@ class DebugDrawManager {
    *
    * Optional parameters: [duration] and [depthEnabled].
    */
-  void addLine(Vector3 start, Vector3 finish, Vector4 color,
-               {num duration: 0.0, bool depthEnabled: true}) {
+  void addLine(Vector3 start, Vector3 finish, Vector4 color, {num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(start, finish);
     lineManager.lines.finishLineObject();
   }
@@ -281,16 +268,14 @@ class DebugDrawManager {
    *
    * Optional parameters: [size], [duration] and [depthEnabled].
    */
-  void addVector(Vector3 origin, Vector3 vector, Vector4 color,
-               {num size: 0.5, num duration: 0.0, bool depthEnabled: true}) {
+  void addVector(Vector3 origin, Vector3 vector, Vector4 color, {num size: 0.5, num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     var to = origin.clone().add(vector);
     var direction = vector.normalized().scale(-size);
 
     lineManager.lines._addLine(origin, to);
-    
+
     var center = to.clone().add(direction);
     num s = size / Math.cos(45.0 / 2.0);
     num radius = Math.sqrt(s * s - size * size);
@@ -300,7 +285,7 @@ class DebugDrawManager {
     _circle_v.normalize();
 
     num alpha = 0.0;
-    num _step = TWO_PI/4.0;
+    num _step = TWO_PI / 4.0;
 
     double lastX = center.x + _circle_u.x * radius;
     double lastY = center.y + _circle_u.y * radius;
@@ -313,9 +298,7 @@ class DebugDrawManager {
       double lastY = center.y + cosScale * _circle_u.y + sinScale * _circle_v.y;
       double lastZ = center.z + cosScale * _circle_u.z + sinScale * _circle_v.z;
 
-      lineManager.lines._addLineRaw(
-          to.x, to.y, to.z,
-          lastX, lastY, lastZ);
+      lineManager.lines._addLineRaw(to.x, to.y, to.z, lastX, lastY, lastZ);
     }
 
     lineManager.lines.finishLineObject();
@@ -325,11 +308,9 @@ class DebugDrawManager {
    *
    * Optional paremeters: [size], [duration], and [depthEnabled].
    */
-  void addCross(Vector3 point, Vector4 color,
-                {num size: 1.0, num duration: 0.0, bool depthEnabled:true}) {
+  void addCross(Vector3 point, Vector4 color, {num size: 1.0, num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     num half_size = size * 0.5;
     lineManager.lines._addLine(point, point + new Vector3(half_size, 0.0, 0.0));
     lineManager.lines._addLine(point, point + new Vector3(-half_size, 0.0, 0.0));
@@ -344,43 +325,31 @@ class DebugDrawManager {
    *
    * Optional paremeters: [duration] and [depthEnabled].
    */
-  void addSphere(Vector3 center, num radius, Vector4 color,
-                 {num duration: 0.0, bool depthEnabled: true}) {
+  void addSphere(Vector3 center, num radius, Vector4 color, {num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     int latSegments = 6;
     int lonSegments = 8;
 
-    Vector3 lastVertex, vertex, upperVertex;
+    Vector3 lastVertex;
+    Vector3 upperVertex;
+    Vector3 vertex;
 
     for (int y = 0; y < latSegments; ++y) {
       lastVertex = null;
       for (int x = 0; x <= lonSegments; ++x) {
         num u = x / lonSegments;
         num v = y / latSegments;
-        num v2 = (y+1) / latSegments;
+        num v2 = (y + 1) / latSegments;
 
-        vertex = new Vector3(
-            radius * Math.cos(u * TWO_PI) * Math.sin(v * Math.PI),
-            radius * Math.cos(v * Math.PI),
-            radius * Math.sin(u * TWO_PI) * Math.sin(v * Math.PI)
-        ) + center;
+        vertex = new Vector3(radius * Math.cos(u * TWO_PI) * Math.sin(v * Math.PI), radius * Math.cos(v * Math.PI), radius * Math.sin(u * TWO_PI) * Math.sin(v * Math.PI)) + center;
 
-        upperVertex = new Vector3(
-            radius * Math.cos(u * TWO_PI) * Math.sin(v2 * Math.PI),
-            radius * Math.cos(v2 * Math.PI),
-            radius * Math.sin(u * TWO_PI) * Math.sin(v2 * Math.PI)
-        ) + center;
+        upperVertex = new Vector3(radius * Math.cos(u * TWO_PI) * Math.sin(v2 * Math.PI), radius * Math.cos(v2 * Math.PI), radius * Math.sin(u * TWO_PI) * Math.sin(v2 * Math.PI)) + center;
 
-        if(lastVertex != null) {
-          lineManager.lines._addLineRaw(
-              lastVertex.x, lastVertex.y, lastVertex.z,
-              vertex.x, vertex.y, vertex.z);
-          lineManager.lines._addLineRaw(
-              upperVertex.x, upperVertex.y, upperVertex.z,
-              vertex.x, vertex.y, vertex.z);
+        if (lastVertex != null) {
+          lineManager.lines._addLineRaw(lastVertex.x, lastVertex.y, lastVertex.z, vertex.x, vertex.y, vertex.z);
+          lineManager.lines._addLineRaw(upperVertex.x, upperVertex.y, upperVertex.z, vertex.x, vertex.y, vertex.z);
         }
 
         lastVertex = vertex;
@@ -396,12 +365,9 @@ class DebugDrawManager {
   /// [center]. The plane is drawn as a grid of [size] square. Drawn
   /// with [color].
   /// Optional parameters: [duration], [depthEnabled] and [numSegments].
-  void addPlane(Vector3 normal, Vector3 center, double size,
-                Vector4 color, {num duration: 0.0, bool depthEnabled: true,
-                int numSegments: 16}) {
+  void addPlane(Vector3 normal, Vector3 center, double size, Vector4 color, {num duration: 0.0, bool depthEnabled: true, int numSegments: 16}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     buildPlaneVectors(normal, _circle_u, _circle_v);
     _circle_u.normalize();
@@ -432,12 +398,9 @@ class DebugDrawManager {
    *
    * Optional parameters: [duration], [depthEnabled] and [numSegments].
    */
-  void addCone(Vector3 apex, Vector3 direction, num height, num angle,
-               Vector4 color, {num duration: 0.0, bool depthEnabled: true,
-               int numSegments: 16}) {
+  void addCone(Vector3 apex, Vector3 direction, num height, num angle, Vector4 color, {num duration: 0.0, bool depthEnabled: true, int numSegments: 16}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     var center = apex.clone().add(direction.normalized().scale(height));
     num s = height / Math.cos(angle / 2.0);
@@ -449,7 +412,7 @@ class DebugDrawManager {
     _circle_v.normalize();
 
     num alpha = 0.0;
-    num _step = TWO_PI/numSegments;
+    num _step = TWO_PI / numSegments;
 
     double lastX = center.x + _circle_u.x * radius;
     double lastY = center.y + _circle_u.y * radius;
@@ -463,18 +426,13 @@ class DebugDrawManager {
       double pZ = center.z + cosScale * _circle_u.z + sinScale * _circle_v.z;
       lineManager.lines._addLineRaw(lastX, lastY, lastZ, pX, pY, pZ);
 
-      lineManager.lines._addLineRaw(
-          apex.x, apex.y, apex.z,
-          lastX, lastY, lastZ);
+      lineManager.lines._addLineRaw(apex.x, apex.y, apex.z, lastX, lastY, lastZ);
       lastX = pX;
       lastY = pY;
       lastZ = pZ;
     }
 
-    lineManager.lines._addLineRaw(lastX, lastY, lastZ,
-        center.x + _circle_u.x * radius,
-        center.y + _circle_u.y * radius,
-        center.z + _circle_u.z * radius);
+    lineManager.lines._addLineRaw(lastX, lastY, lastZ, center.x + _circle_u.x * radius, center.y + _circle_u.y * radius, center.z + _circle_u.z * radius);
 
     lineManager.lines.finishLineObject();
   }
@@ -485,18 +443,15 @@ class DebugDrawManager {
    *
    * Optional parameters: [duration], [depthEnabled], and [numSegments].
    */
-  void addArc(Vector3 center, Vector3 planeNormal, num radius, num startAngle,
-              num stopAngle, Vector4 color, {num duration: 0.0,
-              bool depthEnabled: true, int numSegments: 16}) {
+  void addArc(Vector3 center, Vector3 planeNormal, num radius, num startAngle, num stopAngle, Vector4 color, {num duration: 0.0, bool depthEnabled: true, int numSegments: 16}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     buildPlaneVectors(planeNormal, _circle_u, _circle_v);
     _circle_u.normalize();
     _circle_v.normalize();
     num alpha = 0.0;
-    num _step = TWO_PI/numSegments;
+    num _step = TWO_PI / numSegments;
 
     alpha = startAngle;
     double cosScale = Math.cos(alpha) * radius;
@@ -505,7 +460,7 @@ class DebugDrawManager {
     double lastY = center.y + cosScale * _circle_u.y + sinScale * _circle_v.y;
     double lastZ = center.z + cosScale * _circle_u.z + sinScale * _circle_v.z;
 
-    for (alpha = startAngle; alpha <= stopAngle+_step; alpha += _step) {
+    for (alpha = startAngle; alpha <= stopAngle + _step; alpha += _step) {
       cosScale = Math.cos(alpha) * radius;
       sinScale = Math.sin(alpha) * radius;
       double pX = center.x + cosScale * _circle_u.x + sinScale * _circle_v.x;
@@ -524,18 +479,15 @@ class DebugDrawManager {
    *
    * Optional parameters: [duration], [depthEnabled], and [numSegments].
    */
-  void addCircle(Vector3 center, Vector3 planeNormal, num radius, Vector4 color,
-                 {num duration: 0.0, bool depthEnabled: true,
-                 int numSegments: 16}) {
+  void addCircle(Vector3 center, Vector3 planeNormal, num radius, Vector4 color, {num duration: 0.0, bool depthEnabled: true, int numSegments: 16}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     buildPlaneVectors(planeNormal, _circle_u, _circle_v);
     _circle_u.normalize();
     _circle_v.normalize();
     num alpha = 0.0;
-    num _step = TWO_PI/numSegments;
+    num _step = TWO_PI / numSegments;
 
     double lastX = center.x + _circle_u.x * radius;
     double lastY = center.y + _circle_u.y * radius;
@@ -552,10 +504,7 @@ class DebugDrawManager {
       lastY = pY;
       lastZ = pZ;
     }
-    lineManager.lines._addLineRaw(lastX, lastY, lastZ,
-                                  center.x + _circle_u.x * radius,
-                                  center.y + _circle_u.y * radius,
-                                  center.z + _circle_u.z * radius);
+    lineManager.lines._addLineRaw(lastX, lastY, lastZ, center.x + _circle_u.x * radius, center.y + _circle_u.y * radius, center.z + _circle_u.z * radius);
     lineManager.lines.finishLineObject();
   }
 
@@ -564,8 +513,7 @@ class DebugDrawManager {
   /// X,Y, and Z axes are colored Red,Green, and Blue
   ///
   /// Optional paremeters: [duration], and [depthEnabled]
-  void addAxes(Matrix4 xform, num size,
-               {num duration: 0.0, bool depthEnabled: true}) {
+  void addAxes(Matrix4 xform, num size, {num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
 
     Vector4 origin = new Vector4(0.0, 0.0, 0.0, 1.0);
@@ -602,8 +550,7 @@ class DebugDrawManager {
     X_head_3 = xform * X_head_3;
 
     color = new Vector4(1.0, 0.0, 0.0, 1.0);
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-        duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(origin.xyz, X.xyz);
     lineManager.lines._addLine(X.xyz, X_head_0.xyz);
     lineManager.lines._addLine(X.xyz, X_head_1.xyz);
@@ -618,8 +565,7 @@ class DebugDrawManager {
     Y_head_3 = xform * Y_head_3;
 
     color = new Vector4(0.0, 1.0, 0.0, 1.0);
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-        duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(origin.xyz, Y.xyz);
     lineManager.lines._addLine(Y.xyz, Y_head_0.xyz);
     lineManager.lines._addLine(Y.xyz, Y_head_1.xyz);
@@ -634,8 +580,7 @@ class DebugDrawManager {
     Z_head_3 = xform * Z_head_3;
 
     color = new Vector4(0.0, 0.0, 1.0, 1.0);
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-        duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(origin.xyz, Z.xyz);
     lineManager.lines._addLine(Z.xyz, Z_head_0.xyz);
     lineManager.lines._addLine(Z.xyz, Z_head_1.xyz);
@@ -648,11 +593,9 @@ class DebugDrawManager {
   /// and [vertex2]. Filled with [color].
   ///
   /// Optional parameters: [duration] and [depthEnabled]
-  void addTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector4 color,
-                   {num duration: 0.0, bool depthEnabled: true}) {
+  void addTriangle(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector4 color, {num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(vertex0, vertex1);
     lineManager.lines._addLine(vertex1, vertex2);
     lineManager.lines._addLine(vertex2, vertex0);
@@ -663,12 +606,9 @@ class DebugDrawManager {
   /// and [vertex3]. Filled with [color].
   ///
   /// Optional parameters: [duration] and [depthEnabled]
-  void addQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, 
-  			   Vector3 vertex3, Vector4 color, {num duration: 0.0, 
-               bool depthEnabled: true}) {
+  void addQuad(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, Vector4 color, {num duration: 0.0, bool depthEnabled: true}) {
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-                                      duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
     lineManager.lines._addLine(vertex0, vertex1);
     lineManager.lines._addLine(vertex1, vertex2);
     lineManager.lines._addLine(vertex2, vertex3);
@@ -680,14 +620,12 @@ class DebugDrawManager {
   /// Filled with [color].
   ///
   /// Option parameters: [duration] and [depthEnabled]
-  void addAABB(Vector3 boxMin, Vector3 boxMax, Vector4 color,
-               {num duration: 0.0, bool depthEnabled: true}) {
+  void addAABB(Vector3 boxMin, Vector3 boxMax, Vector4 color, {num duration: 0.0, bool depthEnabled: true}) {
     Vector3 vertex_a;
     Vector3 vertex_b;
 
     var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
-    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
-        duration);
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a, duration);
 
     vertex_a = new Vector3.copy(boxMin);
     vertex_b = new Vector3.copy(vertex_a);
@@ -744,7 +682,7 @@ class DebugDrawManager {
 
   /// Render debug primitives for [Camera] [cam]
   void render(Camera cam) {
-    if(_depthEnabledLines._lineMesh.count == 0 && _depthDisabledLines._lineMesh.count == 0) {
+    if (_depthEnabledLines._lineMesh.count == 0 && _depthDisabledLines._lineMesh.count == 0) {
       return;
     }
 
@@ -758,7 +696,7 @@ class DebugDrawManager {
     device.context.setBlendState(_blendState);
     device.context.setInputLayout(_depthEnabledLines._lineMeshInputLayout);
 
-    if(_depthEnabledLines._lineMesh.count != 0) {
+    if (_depthEnabledLines._lineMesh.count != 0) {
       _depthState.depthBufferEnabled = true;
       _depthState.depthBufferWriteEnabled = true;
       device.context.setDepthState(_depthState);
@@ -766,7 +704,7 @@ class DebugDrawManager {
       device.context.drawMesh(_depthEnabledLines._lineMesh);
     }
 
-    if(_depthDisabledLines._lineMesh.count != 0) {
+    if (_depthDisabledLines._lineMesh.count != 0) {
       _depthState.depthBufferEnabled = false;
       _depthState.depthBufferWriteEnabled = false;
       device.context.setDepthState(_depthState);

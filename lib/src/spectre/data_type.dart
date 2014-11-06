@@ -33,18 +33,17 @@ class DataType extends Enum {
   static const int Default = Uint8;
 
   static Map<String, int> _values = {
-    'DataType.Int8' : Int8,
-    'DataType.Uint8' : Uint8,
-    'DataType.Int16' : Int16,
-    'DataType.Uint16' : Uint16,
-    'DataType.Int32' : Int32,
-    'DataType.Uint32' : Uint32,
-    'DataType.Float32' : Float32
+    'DataType.Int8': Int8,
+    'DataType.Uint8': Uint8,
+    'DataType.Int16': Int16,
+    'DataType.Uint16': Uint16,
+    'DataType.Int32': Int32,
+    'DataType.Uint32': Uint32,
+    'DataType.Float32': Float32
   };
 
   /// Convert a [String] to a [DataType].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [DataType] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

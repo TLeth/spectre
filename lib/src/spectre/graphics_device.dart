@@ -52,8 +52,7 @@ class GraphicsDevice {
     children.remove(child);
   }
 
-  void _drawSquare(CanvasRenderingContext2D context2d, int x, int y, int w,
-                   int h) {
+  void _drawSquare(CanvasRenderingContext2D context2d, int x, int y, int w, int h) {
     context2d.save();
     context2d.beginPath();
     context2d.translate(x, y);
@@ -62,19 +61,16 @@ class GraphicsDevice {
     context2d.restore();
   }
 
-  void _drawGrid(CanvasRenderingContext2D context2d, int width, int height,
-                 int horizSlices, int vertSlices) {
+  void _drawGrid(CanvasRenderingContext2D context2d, int width, int height, int horizSlices, int vertSlices) {
     int sliceWidth = width ~/ horizSlices;
     int sliceHeight = height ~/ vertSlices;
     int sliceHalfWidth = sliceWidth ~/ 2;
     for (int i = 0; i < horizSlices; i++) {
       for (int j = 0; j < vertSlices; j++) {
         if (j % 2 == 0) {
-          _drawSquare(context2d, i * sliceWidth, j * sliceHeight,
-                      sliceHalfWidth, sliceHeight);
+          _drawSquare(context2d, i * sliceWidth, j * sliceHeight, sliceHalfWidth, sliceHeight);
         } else {
-          _drawSquare(context2d, i * sliceWidth + sliceHalfWidth,
-                      j * sliceHeight, sliceHalfWidth, sliceHeight);
+          _drawSquare(context2d, i * sliceWidth + sliceHalfWidth, j * sliceHeight, sliceHalfWidth, sliceHeight);
         }
       }
     }
@@ -97,7 +93,7 @@ class GraphicsDevice {
     _capabilities = new GraphicsDeviceCapabilities._fromContext(gl);
     hierarchicalLoggingEnabled = true;
     _spectreLog.onRecord.listen((record) {
-       print('[${record.level.name}] ${record.message}');
+      print('[${record.level.name}] ${record.message}');
     });
 
     /// Configure logging:
@@ -106,8 +102,6 @@ class GraphicsDevice {
     _spectreLog.config('$_capabilities');
     // Create the associated GraphicsContext.
     _context = new GraphicsContext(this);
-    RenderTarget._systemRenderTarget = new RenderTarget.systemTarget(
-        'WebGLFrontBuffer',
-        this);
+    RenderTarget._systemRenderTarget = new RenderTarget.systemTarget('WebGLFrontBuffer', this);
   }
 }

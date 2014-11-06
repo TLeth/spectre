@@ -29,14 +29,13 @@ class PixelFormat extends Enum {
   static const int Default = Rgba;
 
   static Map<String, int> _values = {
-    'PixelFormat.Rgb' : Rgb,
-    'PixelFormat.Rgba' : Rgba,
-    'PixelFormat.Depth' : Depth,
+    'PixelFormat.Rgb': Rgb,
+    'PixelFormat.Rgba': Rgba,
+    'PixelFormat.Depth': Depth,
   };
 
   /// Convert a [String] to a [DataType].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [DataType] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

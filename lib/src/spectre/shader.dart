@@ -25,8 +25,7 @@ class SpectreShader extends DeviceChild {
   String _source = '';
   WebGL.Shader _shader;
 
-  SpectreShader(String name, GraphicsDevice device, this._type) :
-      super._internal(name, device) {
+  SpectreShader(String name, GraphicsDevice device, this._type) : super._internal(name, device) {
     _shader = device.gl.createShader(_type);
   }
 

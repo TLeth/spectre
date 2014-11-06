@@ -30,22 +30,15 @@ class Texture2D extends SpectreTexture {
   bool get loadError => _loadError;
 
   String toString() {
-    return 'Texture2D name=$name width=$_width height=$_height '
-           'pixelFormat=${PixelFormat.stringify(pixelFormat)} '
-           'pixelDataType=${DataType.stringify(pixelDataType)}';
+    return 'Texture2D name=$name width=$_width height=$_height ' 'pixelFormat=${PixelFormat.stringify(pixelFormat)} ' 'pixelDataType=${DataType.stringify(pixelDataType)}';
   }
 
-  Texture2D(String name, GraphicsDevice device) :
-      super(name, device, WebGL.TEXTURE_2D, WebGL.TEXTURE_BINDING_2D,
-            WebGL.TEXTURE_2D);
+  Texture2D(String name, GraphicsDevice device) : super(name, device, WebGL.TEXTURE_2D, WebGL.TEXTURE_BINDING_2D, WebGL.TEXTURE_2D);
 
-  Texture2D._cube(String name, GraphicsDevice device, int bindTarget,
-                  int bindParam, int textureTarget) :
-      super(name, device, bindTarget, bindParam, textureTarget);
+  Texture2D._cube(String name, GraphicsDevice device, int bindTarget, int bindParam, int textureTarget) : super(name, device, bindTarget, bindParam, textureTarget);
 
   void _uploadPixelArray(int width, int height, TypedData array) {
-    device.gl.texImage2DTyped(_textureTarget, 0, pixelFormat, width, height,
-                              0, pixelFormat, pixelDataType, array);
+    device.gl.texImage2DTyped(_textureTarget, 0, pixelFormat, width, height, 0, pixelFormat, pixelDataType, array);
   }
 
   /** Replace texture contents with data stored in [array].
@@ -66,9 +59,7 @@ class Texture2D extends SpectreTexture {
    * being uploaded to the GPU.
    */
   void uploadElement(dynamic element) {
-    if ((element is! ImageElement) &&
-        (element is! CanvasElement) &&
-        (element is! VideoElement)) {
+    if ((element is! ImageElement) && (element is! CanvasElement) && (element is! VideoElement)) {
       throw new ArgumentError('Element type is not supported.');
     }
 
@@ -76,18 +67,15 @@ class Texture2D extends SpectreTexture {
     if (element is ImageElement) {
       _width = element.naturalWidth;
       _height = element.naturalHeight;
-      device.gl.texImage2DImage(_textureTarget, 0, pixelFormat, pixelFormat,
-                                pixelDataType, element);
+      device.gl.texImage2DImage(_textureTarget, 0, pixelFormat, pixelFormat, pixelDataType, element);
     } else if (element is CanvasElement) {
       _width = element.width;
       _height = element.height;
-      device.gl.texImage2DCanvas(_textureTarget, 0, pixelFormat, pixelFormat,
-                                 pixelDataType, element);
+      device.gl.texImage2DCanvas(_textureTarget, 0, pixelFormat, pixelFormat, pixelDataType, element);
     } else if (element is VideoElement) {
       _width = element.width;
       _height = element.height;
-      device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat,
-                                pixelDataType, element);
+      device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat, pixelDataType, element);
     }
     device.context.setTexture(device.context._tempTextureUnit, old);
   }
@@ -126,10 +114,8 @@ class Texture2D extends SpectreTexture {
   /// A call to this method will only generate mipmap data if the
   /// texture is a power of two. If not then this call is ignored.
   void generateMipmap() {
-    if (SpectreTexture._isPowerOfTwo(_width) &&
-        SpectreTexture._isPowerOfTwo(_height)) {
-      var old = device.context.setTexture(device.context._tempTextureUnit,
-                                          this);
+    if (SpectreTexture._isPowerOfTwo(_width) && SpectreTexture._isPowerOfTwo(_height)) {
+      var old = device.context.setTexture(device.context._tempTextureUnit, this);
       _generateMipmap();
       device.context.setTexture(device.context._tempTextureUnit, old);
     }

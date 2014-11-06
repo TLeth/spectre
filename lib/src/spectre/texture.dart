@@ -44,8 +44,7 @@ class SpectreTexture extends DeviceChild {
   /// Height of texture.
   int get height => _height;
 
-  SpectreTexture(String name, GraphicsDevice device, this._bindTarget,
-                 this._bindingParam, this._textureTarget)
+  SpectreTexture(String name, GraphicsDevice device, this._bindTarget, this._bindingParam, this._textureTarget)
       : super._internal(name, device) {
     _deviceTexture = device.gl.createTexture();
   }

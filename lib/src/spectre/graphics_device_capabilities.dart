@@ -30,7 +30,7 @@ class GraphicsDeviceCapabilities {
   //---------------------------------------------------------------------
 
   /// Vendor extensions to use when searching for extensions.
-  static List<String> _vendorExtensions = [ '', 'WEBKIT_', 'MOZ_' ];
+  static List<String> _vendorExtensions = ['', 'WEBKIT_', 'MOZ_'];
 
   //---------------------------------------------------------------------
   // Device information
@@ -203,8 +203,7 @@ class GraphicsDeviceCapabilities {
   String toString() {
     String vendorString = _vendor.isEmpty ? 'Unknown' : _vendor;
     String rendererString = _renderer.isEmpty ? 'Unknown' : _renderer;
-    return
-        '''
+    return '''
 Vendor: $vendorString
 Renderer: $rendererString
 
@@ -254,16 +253,13 @@ WEBGL_lose_context: $_loseContext
   /// Queries device info using the [WebGL.RenderingContext].
   void _queryDeviceInfo(WebGL.RenderingContext gl) {
     _textureUnits = gl.getParameter(WebGL.MAX_TEXTURE_IMAGE_UNITS);
-    _vertexShaderTextureUnits =
-        gl.getParameter(WebGL.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+    _vertexShaderTextureUnits = gl.getParameter(WebGL.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
     _maxTextureSize = gl.getParameter(WebGL.MAX_TEXTURE_SIZE);
     _maxCubeMapTextureSize = gl.getParameter(WebGL.MAX_CUBE_MAP_TEXTURE_SIZE);
     _maxVertexAttribs = gl.getParameter(WebGL.MAX_VERTEX_ATTRIBS);
     _maxVaryingVectors = gl.getParameter(WebGL.MAX_VARYING_VECTORS);
-    _maxVertexShaderUniforms =
-        gl.getParameter(WebGL.MAX_VERTEX_UNIFORM_VECTORS);
-    _maxFragmentShaderUniforms =
-        gl.getParameter(WebGL.MAX_FRAGMENT_UNIFORM_VECTORS);
+    _maxVertexShaderUniforms = gl.getParameter(WebGL.MAX_VERTEX_UNIFORM_VECTORS);
+    _maxFragmentShaderUniforms = gl.getParameter(WebGL.MAX_FRAGMENT_UNIFORM_VECTORS);
 
     _depthBufferSize = gl.getParameter(WebGL.DEPTH_BITS);
     _stencilBufferSize = gl.getParameter(WebGL.STENCIL_BITS);
@@ -287,8 +283,7 @@ WEBGL_lose_context: $_loseContext
     // Query the anisotropic extension and get the maximum anisotropy level
     if (_hasExtension(gl, 'EXT_texture_filter_anisotropic') != null) {
       _anisotropicFiltering = true;
-      _maxAnisotropyLevel = gl.getParameter(
-          WebGL.ExtTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+      _maxAnisotropyLevel = gl.getParameter(WebGL.ExtTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
     } else {
       _anisotropicFiltering = false;
       _maxAnisotropyLevel = 1;
@@ -297,13 +292,12 @@ WEBGL_lose_context: $_loseContext
     // Draft
     _compressedTextureATC = _hasExtension(gl, 'WEBGL_compressed_texture_atc');
     //_instancedArrays = _hasExtension(gl, 'ANGLE_instanced_arrays');
-    _compressedTexturePVRTC =
-        _hasExtension(gl, 'WEBGL_compressed_texture_pvrtc');
+    _compressedTexturePVRTC = _hasExtension(gl, 'WEBGL_compressed_texture_pvrtc');
     _multipleRenderTargets = _getExtension(gl, 'WEBGL_draw_buffers');
     if (_multipleRenderTargets != null) {
       int maxC = gl.getParameter(WebGL.DrawBuffers.MAX_COLOR_ATTACHMENTS_WEBGL);
       int maxD = gl.getParameter(WebGL.DrawBuffers.MAX_DRAW_BUFFERS_WEBGL);
-      _maxRenderTargets = Math.min(maxC, maxD);  
+      _maxRenderTargets = Math.min(maxC, maxD);
     }
   }
 

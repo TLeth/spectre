@@ -64,8 +64,7 @@ class RenderBuffer extends DeviceChild {
   int _format = FormatRGB;
   WebGL.Renderbuffer _buffer;
 
-  RenderBuffer(String name, GraphicsDevice device) :
-      super._internal(name, device) {
+  RenderBuffer(String name, GraphicsDevice device) : super._internal(name, device) {
     _buffer = device.gl.createRenderbuffer();
   }
 

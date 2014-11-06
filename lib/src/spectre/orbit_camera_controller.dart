@@ -48,9 +48,9 @@ class OrbitCameraController extends CameraController {
   OrbitCameraController();
 
   void updateCamera(num dt, Camera cam) {
-    if(accumDX != 0 || accumDY != 0) {
-      _momentum.x = accumDX/mouseSensitivity;
-      _momentum.y = accumDY/mouseSensitivity;
+    if (accumDX != 0 || accumDY != 0) {
+      _momentum.x = accumDX / mouseSensitivity;
+      _momentum.y = accumDY / mouseSensitivity;
 
       accumDX = 0;
       accumDY = 0;
@@ -58,7 +58,7 @@ class OrbitCameraController extends CameraController {
       _momentumTime = 0;
     }
 
-    if(accumDZ !=0) {
+    if (accumDZ != 0) {
       _ZoomView(dt, accumDZ);
       accumDZ = 0;
     }
@@ -87,34 +87,30 @@ class OrbitCameraController extends CameraController {
   void _RotateView(num dt, Camera cam, num yawDelta, num pitchDelta) {
     yaw += yawDelta;
     pitch = _clamp(pitch + pitchDelta, minYaw, maxYaw);
-    Vector3 offset = new Vector3(
-      radius * Math.cos(yaw) * Math.cos(pitch),
-      radius * Math.sin(pitch),
-      radius * Math.sin(yaw) * Math.cos(pitch)
-    );
+    Vector3 offset = new Vector3(radius * Math.cos(yaw) * Math.cos(pitch), radius * Math.sin(pitch), radius * Math.sin(yaw) * Math.cos(pitch));
 
     cam.position = cam.focusPosition + offset;
   }
 
   void _ApplyFriction(num dt) {
-    if(!hasMomentum) {
+    if (!hasMomentum) {
       _momentum.x = 0.0;
       _momentum.y = 0.0;
       return;
     }
 
-    if(!hasFriction) {
+    if (!hasFriction) {
       return;
     }
 
     num momentumLen = _momentum.length;
-    if(momentumLen == 0.0) {
+    if (momentumLen == 0.0) {
       return;
     }
 
     _momentumTime += dt;
 
-    if(_momentumTime >= momentumDuration) {
+    if (_momentumTime >= momentumDuration) {
       _momentum.x = 0.0;
       _momentum.y = 0.0;
       return;

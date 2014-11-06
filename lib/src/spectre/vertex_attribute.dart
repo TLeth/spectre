@@ -36,15 +36,12 @@ class VertexAttribute {
   /// Data is converted into a normalized floating point value.
   /// 0.0 ... 1.0 for unsigned, -1.0 ... 1.0 for signed data.
   final bool normalizeData;
-  VertexAttribute(this.vboSlot, this.attributeIndex, this.attributeOffset,
-                  this.attributeStride, this.dataType, this.dataCount,
-                  this.normalizeData);
-  VertexAttribute.atAttributeIndex(VertexAttribute attribute,
-                                   this.attributeIndex) :
-      vboSlot = attribute.vboSlot,
-      attributeOffset = attribute.attributeOffset,
-      attributeStride = attribute.attributeStride,
-      dataType = attribute.dataType,
-      dataCount = attribute.dataCount,
-      normalizeData = attribute.normalizeData;
+  VertexAttribute(this.vboSlot, this.attributeIndex, this.attributeOffset, this.attributeStride, this.dataType, this.dataCount, this.normalizeData);
+  VertexAttribute.atAttributeIndex(VertexAttribute attribute, this.attributeIndex)
+      : vboSlot = attribute.vboSlot,
+        attributeOffset = attribute.attributeOffset,
+        attributeStride = attribute.attributeStride,
+        dataType = attribute.dataType,
+        dataCount = attribute.dataCount,
+        normalizeData = attribute.normalizeData;
 }

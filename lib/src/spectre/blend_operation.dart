@@ -40,14 +40,13 @@ class BlendOperation extends Enum {
   static const int Default = Add;
 
   static Map<String, int> _values = {
-    'BlendOperation.Add' : Add,
-    'BlendOperation.ReverseSubtract' : ReverseSubtract,
-    'BlendOperation.Subtract' : Subtract
+    'BlendOperation.Add': Add,
+    'BlendOperation.ReverseSubtract': ReverseSubtract,
+    'BlendOperation.Subtract': Subtract
   };
 
   /// Convert a [String] to a [BlendOperation].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [BlendOperation] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

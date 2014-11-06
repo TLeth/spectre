@@ -28,8 +28,7 @@ class ShaderProgramUniform {
   final int size;
   final location;
   final UniformSetFunction _apply;
-  ShaderProgramUniform(this.name, this.index, this.type, this.size,
-                       this.location, this._apply);
+  ShaderProgramUniform(this.name, this.index, this.type, this.size, this.location, this._apply);
 }
 
 /** A shader program sampler input */
@@ -41,8 +40,7 @@ class ShaderProgramSampler {
   final location;
   int _textureUnit = 0;
   int get textureUnit => _textureUnit;
-  ShaderProgramSampler(this.name, this.index, this.type, this.size,
-      this.location);
+  ShaderProgramSampler(this.name, this.index, this.type, this.size, this.location);
 }
 
 /** A shader program attribute input */
@@ -53,8 +51,7 @@ class ShaderProgramAttribute {
   final int size;
   int _location;
   int get location => _location;
-  ShaderProgramAttribute(this.name, this.index, this.type, this.size,
-                         this._location);
+  ShaderProgramAttribute(this.name, this.index, this.type, this.size, this._location);
 }
 
 typedef void AttributeCallback(ShaderProgramAttribute attribute);
@@ -69,12 +66,9 @@ typedef UniformSetFunction(device, location, argument);
  *
  */
 class ShaderProgram extends DeviceChild {
-  final Map<String, ShaderProgramUniform> uniforms =
-      new Map<String, ShaderProgramUniform>();
-  final Map<String, ShaderProgramAttribute> attributes =
-      new Map<String, ShaderProgramAttribute>();
-  final Map<String, ShaderProgramSampler> samplers =
-      new Map<String, ShaderProgramSampler>();
+  final Map<String, ShaderProgramUniform> uniforms = new Map<String, ShaderProgramUniform>();
+  final Map<String, ShaderProgramAttribute> attributes = new Map<String, ShaderProgramAttribute>();
+  final Map<String, ShaderProgramSampler> samplers = new Map<String, ShaderProgramSampler>();
 
   bool _isLinked = false;
   String _linkLog = '';
@@ -99,8 +93,7 @@ class ShaderProgram extends DeviceChild {
   }
   WebGL.Program _program;
 
-  ShaderProgram(String name, GraphicsDevice device) :
-    super._internal(name, device) {
+  ShaderProgram(String name, GraphicsDevice device) : super._internal(name, device) {
     _program = device.gl.createProgram();
   }
 
@@ -135,9 +128,7 @@ class ShaderProgram extends DeviceChild {
     // Grab the log.
     _linkLog = device.gl.getProgramInfoLog(_program);
     // Update the flag.
-    _isLinked = device.gl.getProgramParameter(
-        _program,
-        WebGL.LINK_STATUS);
+    _isLinked = device.gl.getProgramParameter(_program, WebGL.LINK_STATUS);
 
     if (_linkLog == '') {
       _spectreLog.fine('ShaderProgram.Link($name): OKAY.');
@@ -159,26 +150,11 @@ $_linkLog''');
   }
 
   bool _isUniformType(int type) {
-    return type == WebGL.FLOAT ||
-           type == WebGL.FLOAT_VEC2 ||
-           type == WebGL.FLOAT_VEC3 ||
-           type == WebGL.FLOAT_VEC4 ||
-           type == WebGL.FLOAT_MAT2 ||
-           type == WebGL.FLOAT_MAT3 ||
-           type == WebGL.FLOAT_MAT4 ||
-           type == WebGL.BOOL ||
-           type == WebGL.BOOL_VEC2 ||
-           type == WebGL.BOOL_VEC3 ||
-           type == WebGL.BOOL_VEC4 ||
-           type == WebGL.INT ||
-           type == WebGL.INT_VEC2 ||
-           type == WebGL.INT_VEC3 ||
-           type == WebGL.INT_VEC4;
+    return type == WebGL.FLOAT || type == WebGL.FLOAT_VEC2 || type == WebGL.FLOAT_VEC3 || type == WebGL.FLOAT_VEC4 || type == WebGL.FLOAT_MAT2 || type == WebGL.FLOAT_MAT3 || type == WebGL.FLOAT_MAT4 || type == WebGL.BOOL || type == WebGL.BOOL_VEC2 || type == WebGL.BOOL_VEC3 || type == WebGL.BOOL_VEC4 || type == WebGL.INT || type == WebGL.INT_VEC2 || type == WebGL.INT_VEC3 || type == WebGL.INT_VEC4;
   }
 
   bool _isSamplerType(int type) {
-    return type == WebGL.SAMPLER_2D ||
-           type == WebGL.SAMPLER_CUBE;
+    return type == WebGL.SAMPLER_2D || type == WebGL.SAMPLER_CUBE;
   }
 
   String _convertType(int type) {
@@ -266,9 +242,7 @@ $_linkLog''');
   String get linkLog => _linkLog;
 
   void refreshUniforms() {
-    var numUniforms = device.gl.getProgramParameter(
-        _program,
-        WebGL.ACTIVE_UNIFORMS);
+    var numUniforms = device.gl.getProgramParameter(_program, WebGL.ACTIVE_UNIFORMS);
     uniforms.clear();
     samplers.clear();
     if (numUniforms == null) {
@@ -280,34 +254,20 @@ $_linkLog''');
       WebGL.ActiveInfo activeUniform = device.gl.getActiveUniform(_program, i);
       var location = device.gl.getUniformLocation(_program, activeUniform.name);
       if (_isSamplerType(activeUniform.type)) {
-        ShaderProgramSampler sampler = new ShaderProgramSampler(
-            activeUniform.name,
-            i,
-            _convertType(activeUniform.type),
-            activeUniform.size,
-            location);
+        ShaderProgramSampler sampler = new ShaderProgramSampler(activeUniform.name, i, _convertType(activeUniform.type), activeUniform.size, location);
         samplers[activeUniform.name] = sampler;
         sampler._textureUnit = numSamplers;
         device.gl.uniform1i(location, numSamplers++);
       } else {
-        ShaderProgramUniform uniform = new ShaderProgramUniform(
-            activeUniform.name,
-            i,
-            _convertType(activeUniform.type),
-            activeUniform.size,
-            location,
-            _findUniformSetForType(activeUniform.type));
+        ShaderProgramUniform uniform = new ShaderProgramUniform(activeUniform.name, i, _convertType(activeUniform.type), activeUniform.size, location, _findUniformSetForType(activeUniform.type));
         uniforms[activeUniform.name] = uniform;
       }
     }
-    device.gl.useProgram(device.context._shaderProgram == null ? null :
-      device.context._shaderProgram._program);
+    device.gl.useProgram(device.context._shaderProgram == null ? null : device.context._shaderProgram._program);
   }
 
   void refreshAttributes() {
-    var numAttributes = device.gl.getProgramParameter(
-        _program,
-        WebGL.ACTIVE_ATTRIBUTES);
+    var numAttributes = device.gl.getProgramParameter(_program, WebGL.ACTIVE_ATTRIBUTES);
     attributes.clear();
     if (numAttributes == null) {
       return;
@@ -315,41 +275,31 @@ $_linkLog''');
     device.gl.useProgram(_program);
     for (int i = 0; i < numAttributes; i++) {
       WebGL.ActiveInfo activeAttribute = device.gl.getActiveAttrib(_program, i);
-      var location = device.gl.getAttribLocation(_program,
-                                                 activeAttribute.name);
-      ShaderProgramAttribute attribute = new ShaderProgramAttribute(
-          activeAttribute.name,
-          i,
-          _convertType(activeAttribute.type),
-          activeAttribute.size,
-          location);
+      var location = device.gl.getAttribLocation(_program, activeAttribute.name);
+      ShaderProgramAttribute attribute = new ShaderProgramAttribute(activeAttribute.name, i, _convertType(activeAttribute.type), activeAttribute.size, location);
       attributes[activeAttribute.name] = attribute;
     }
-    device.gl.useProgram(device.context._shaderProgram == null ? null :
-      device.context._shaderProgram._program);
+    device.gl.useProgram(device.context._shaderProgram == null ? null : device.context._shaderProgram._program);
   }
 
   /** Output each uniform variable input to the log. */
   void logUniforms() {
     forEachUniform((uniform) {
-      _spectreLog.fine('Uniforms[${uniform.index}] ${uniform.type}'
-                       ' ${uniform.name} (${uniform.size})');
+      _spectreLog.fine('Uniforms[${uniform.index}] ${uniform.type}' ' ${uniform.name} (${uniform.size})');
     });
   }
 
   /** Output each sampler input to the log. */
   void logSamplers() {
     forEachSampler((sampler) {
-      _spectreLog.fine('Sampler[${sampler.index}] ${sampler.type}'
-                       ' ${sampler.name} (${sampler})');
+      _spectreLog.fine('Sampler[${sampler.index}] ${sampler.type}' ' ${sampler.name} (${sampler})');
     });
   }
 
   /** Output each attribute input to the log. */
   void logAttributes() {
     forEachAttribute((attribute) {
-      _spectreLog.fine('Attributes[${attribute.index}] ${attribute.type}'
-                       ' ${attribute.name} (${attribute.size})');
+      _spectreLog.fine('Attributes[${attribute.index}] ${attribute.type}' ' ${attribute.name} (${attribute.size})');
     });
   }
 
@@ -435,8 +385,7 @@ $_linkLog''');
       device.gl.uniform4fv(index, argument);
       return;
     } else if (argument is List<num>) {
-      device.gl.uniform4f(index, argument[0], argument[1], argument[2],
-                          argument[3]);
+      device.gl.uniform4f(index, argument[0], argument[1], argument[2], argument[3]);
       return;
     }
     throw new FallThroughError();
@@ -483,8 +432,7 @@ $_linkLog''');
       device.gl.uniform4iv(index, argument);
       return;
     } else if (argument is List<num>) {
-      device.gl.uniform4i(index, argument[0], argument[1], argument[2],
-                          argument[3]);
+      device.gl.uniform4i(index, argument[0], argument[1], argument[2], argument[3]);
       return;
     }
     throw new FallThroughError();
@@ -534,8 +482,7 @@ $_linkLog''');
     updateUniform(uniform, argument);
 
     if (changeProgram) {
-      device.gl.useProgram(device.context._shaderProgram == null ? null :
-        device.context._shaderProgram._program);
+      device.gl.useProgram(device.context._shaderProgram == null ? null : device.context._shaderProgram._program);
     }
   }
 

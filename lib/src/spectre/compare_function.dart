@@ -49,19 +49,18 @@ class CompareFunction extends Enum {
   static const int Default = LessEqual;
 
   static Map<String, int> _values = {
-    'CompareFunction.Always' : Always,
-    'CompareFunction.Equal' : Equal,
-    'CompareFunction.Greater' : Greater,
-    'CompareFunction.GreaterEqual' : GreaterEqual,
-    'CompareFunction.Less' : Less,
-    'CompareFunction.LessEqual' : LessEqual,
-    'CompareFunction.Fail' : Fail,
-    'CompareFunction.NotEqual' : NotEqual
+    'CompareFunction.Always': Always,
+    'CompareFunction.Equal': Equal,
+    'CompareFunction.Greater': Greater,
+    'CompareFunction.GreaterEqual': GreaterEqual,
+    'CompareFunction.Less': Less,
+    'CompareFunction.LessEqual': LessEqual,
+    'CompareFunction.Fail': Fail,
+    'CompareFunction.NotEqual': NotEqual
   };
 
   /// Convert a [String] to a [CompareFunction].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [CompareFunction] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

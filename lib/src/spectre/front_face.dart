@@ -32,13 +32,12 @@ class FrontFace extends Enum {
   static const int Default = CounterClockwise;
 
   static Map<String, int> _values = {
-    'FrontFace.Clockwise' : Clockwise,
-    'FrontFace.CounterClockwise' : CounterClockwise
+    'FrontFace.Clockwise': Clockwise,
+    'FrontFace.CounterClockwise': CounterClockwise
   };
 
   /// Convert a [String] to a [FrontFace].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [FrontFace] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

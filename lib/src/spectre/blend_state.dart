@@ -132,7 +132,9 @@ class BlendState {
 
   /// Whether blending operations are enabled.
   bool get enabled => _enabled;
-  set enabled(bool value) { _enabled = value; }
+  set enabled(bool value) {
+    _enabled = value;
+  }
 
   /// The red component of the blend factor for alpha blending.
   /// Throws [ArgumentError] if [value] is not in the range [0, 1].
@@ -191,8 +193,7 @@ class BlendState {
   /// [value] is not an enumeration within [BlendOperation].
   set alphaBlendOperation(int value) {
     if (!BlendOperation.isValid(value)) {
-      throw new ArgumentError('alphaBlendOperation must be an enumeration '
-                              'within BlendOperation.');
+      throw new ArgumentError('alphaBlendOperation must be an enumeration ' 'within BlendOperation.');
     }
 
     _alphaBlendOperation = value;
@@ -206,8 +207,7 @@ class BlendState {
   /// [Blend].
   set alphaDestinationBlend(int value) {
     if (!Blend.isValid(value)) {
-      throw new ArgumentError('alphaDestinationBlend must be an enumeration '
-                              'within Blend.');
+      throw new ArgumentError('alphaDestinationBlend must be an enumeration ' 'within Blend.');
     }
 
     _alphaDestinationBlend = value;
@@ -221,8 +221,7 @@ class BlendState {
   /// [Blend].
   set alphaSourceBlend(int value) {
     if (!Blend.isValid(value)) {
-      throw new ArgumentError('alphaSourceBlend must be an enumeration within '
-                              'Blend.');
+      throw new ArgumentError('alphaSourceBlend must be an enumeration within ' 'Blend.');
     }
 
     _alphaSourceBlend = value;
@@ -236,8 +235,7 @@ class BlendState {
   /// [Blend].
   set colorBlendOperation(int value) {
     if (!BlendOperation.isValid(value)) {
-      throw new ArgumentError('colorBlendOperation must be an enumeration '
-                              'within BlendOperation.');
+      throw new ArgumentError('colorBlendOperation must be an enumeration ' 'within BlendOperation.');
     }
 
     _colorBlendOperation = value;
@@ -250,8 +248,7 @@ class BlendState {
   /// [Blend].
   set colorDestinationBlend(int value) {
     if (!Blend.isValid(value)) {
-      throw new ArgumentError('colorDestinationBlend must be an enumeration '
-                              'within Blend.');
+      throw new ArgumentError('colorDestinationBlend must be an enumeration ' 'within Blend.');
     }
 
     _colorDestinationBlend = value;
@@ -265,8 +262,7 @@ class BlendState {
   /// [Blend].
   set colorSourceBlend(int value) {
     if (!Blend.isValid(value)) {
-      throw new ArgumentError('colorSourceBlend must be an enumeration within '
-                              'Blend.');
+      throw new ArgumentError('colorSourceBlend must be an enumeration within ' 'Blend.');
     }
 
     _colorSourceBlend = value;
@@ -276,19 +272,27 @@ class BlendState {
 
   /// Whether the red channel is enabled for writing during color blending.
   bool get writeRenderTargetRed => _writeRenderTargetRed;
-  set writeRenderTargetRed(bool value) { _writeRenderTargetRed = value; }
+  set writeRenderTargetRed(bool value) {
+    _writeRenderTargetRed = value;
+  }
 
   /// Whether the green channel is enabled for writing during color blending.
   bool get writeRenderTargetGreen => _writeRenderTargetGreen;
-  set writeRenderTargetGreen(bool value) { _writeRenderTargetGreen = value; }
+  set writeRenderTargetGreen(bool value) {
+    _writeRenderTargetGreen = value;
+  }
 
   /// Whether the blue channel is enabled for writing during color blending.
   bool get writeRenderTargetBlue => _writeRenderTargetBlue;
-  set writeRenderTargetBlue(bool value) { _writeRenderTargetBlue = value; }
+  set writeRenderTargetBlue(bool value) {
+    _writeRenderTargetBlue = value;
+  }
 
   /// Whether the alpha channel is enabled for writing during color blending.
   bool get writeRenderTargetAlpha => _writeRenderTargetAlpha;
-  set writeRenderTargetAlpha(bool value) { _writeRenderTargetAlpha = value; }
+  set writeRenderTargetAlpha(bool value) {
+    _writeRenderTargetAlpha = value;
+  }
 
   //---------------------------------------------------------------------
   // Serialization
@@ -300,28 +304,22 @@ class BlendState {
 
     json[_blendEnabledName] = _enabled;
 
-    json[_blendFactorRedName]   = _blendFactorRed;
+    json[_blendFactorRedName] = _blendFactorRed;
     json[_blendFactorGreenName] = _blendFactorGreen;
-    json[_blendFactorBlueName]  = _blendFactorBlue;
+    json[_blendFactorBlueName] = _blendFactorBlue;
     json[_blendFactorAlphaName] = _blendFactorAlpha;
 
-    json[_alphaBlendOperationName]   =
-        BlendOperation.stringify(_alphaBlendOperation);
-    json[_alphaDestinationBlendName] =
-        Blend.stringify(_alphaDestinationBlend);
-    json[_alphaSourceBlendName]      =
-        Blend.stringify(_alphaSourceBlend);
+    json[_alphaBlendOperationName] = BlendOperation.stringify(_alphaBlendOperation);
+    json[_alphaDestinationBlendName] = Blend.stringify(_alphaDestinationBlend);
+    json[_alphaSourceBlendName] = Blend.stringify(_alphaSourceBlend);
 
-    json[_colorBlendOperationName]   =
-        BlendOperation.stringify(_colorBlendOperation);
-    json[_colorDestinationBlendName] =
-        Blend.stringify(_colorDestinationBlend);
-    json[_colorSourceBlendName]      =
-        Blend.stringify(_colorSourceBlend);
+    json[_colorBlendOperationName] = BlendOperation.stringify(_colorBlendOperation);
+    json[_colorDestinationBlendName] = Blend.stringify(_colorDestinationBlend);
+    json[_colorSourceBlendName] = Blend.stringify(_colorSourceBlend);
 
-    json[_writeRenderTargetRedName]   = _writeRenderTargetRed;
+    json[_writeRenderTargetRedName] = _writeRenderTargetRed;
     json[_writeRenderTargetGreenName] = _writeRenderTargetGreen;
-    json[_writeRenderTargetBlueName]  = _writeRenderTargetBlue;
+    json[_writeRenderTargetBlueName] = _writeRenderTargetBlue;
     json[_writeRenderTargetAlphaName] = _writeRenderTargetAlpha;
 
     return json;
@@ -346,24 +344,18 @@ class BlendState {
     _blendFactorAlpha = (value != null) ? value : _blendFactorAlpha;
 
     value = values[_alphaBlendOperationName];
-    _alphaBlendOperation = (value != null) ?
-        BlendOperation.parse(value) : _alphaBlendOperation;
+    _alphaBlendOperation = (value != null) ? BlendOperation.parse(value) : _alphaBlendOperation;
     value = values[_alphaDestinationBlendName];
-    _alphaDestinationBlend = (value != null) ?
-        Blend.parse(value) : _alphaDestinationBlend;
+    _alphaDestinationBlend = (value != null) ? Blend.parse(value) : _alphaDestinationBlend;
     value = values[_alphaSourceBlendName];
-    _alphaSourceBlend = (value != null) ?
-        Blend.parse(value) : _alphaSourceBlend;
+    _alphaSourceBlend = (value != null) ? Blend.parse(value) : _alphaSourceBlend;
 
     value = values[_colorBlendOperationName];
-    _colorBlendOperation = (value != null) ?
-        BlendOperation.parse(value) : _colorBlendOperation;
+    _colorBlendOperation = (value != null) ? BlendOperation.parse(value) : _colorBlendOperation;
     value = values[_colorDestinationBlendName];
-    _colorDestinationBlend = (value != null) ?
-        Blend.parse(value) : _colorDestinationBlend;
+    _colorDestinationBlend = (value != null) ? Blend.parse(value) : _colorDestinationBlend;
     value = values[_colorSourceBlendName];
-    _colorSourceBlend = (value != null) ?
-        Blend.parse(value) : _colorSourceBlend;
+    _colorSourceBlend = (value != null) ? Blend.parse(value) : _colorSourceBlend;
 
     value = values[_writeRenderTargetRedName];
     _writeRenderTargetRed = (value != null) ? value : _writeRenderTargetRed;

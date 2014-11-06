@@ -48,10 +48,8 @@ class RenderTarget extends DeviceChild {
   int get statusCode => _status;
 
   RenderTarget(String name, GraphicsDevice device)
-      : _colorTargets =
-            new List<DeviceChild>(device.capabilities.maxRenderTargets),
-        _drawBuffers =
-            new List<int>(device.capabilities.maxRenderTargets),
+      : _colorTargets = new List<DeviceChild>(device.capabilities.maxRenderTargets),
+        _drawBuffers = new List<int>(device.capabilities.maxRenderTargets),
         super._internal(name, device) {
     _deviceFramebuffer = device.gl.createFramebuffer();
     for (int i = 0; i < _drawBuffers.length; i++) {
@@ -60,10 +58,8 @@ class RenderTarget extends DeviceChild {
   }
 
   RenderTarget.systemTarget(String name, GraphicsDevice device)
-      : _colorTargets =
-            new List<DeviceChild>(0),
-        _drawBuffers =
-            new List<int>(0),
+      : _colorTargets = new List<DeviceChild>(0),
+        _drawBuffers = new List<int>(0),
         super._internal(name, device) {
     _renderable = true;
   }
@@ -83,16 +79,12 @@ class RenderTarget extends DeviceChild {
   /// Set the [i]th color target to [colorBuffer].
   /// [colorBuffer] can be null, a [RenderBuffer] or a [Texture2D].
   /// An optional [mipLevel] can be specified for For [Texture2D] buffers.
-  dynamic setColorTarget(int i, dynamic colorBuffer, [int mipLevel=0]) {
-    if ((colorBuffer != null) &&
-        (colorBuffer is! RenderBuffer) &&
-        (colorBuffer is! Texture2D)) {
-      throw new ArgumentError(
-          'colorTarget must be a RenderBuffer or Texture2D.');
+  dynamic setColorTarget(int i, dynamic colorBuffer, [int mipLevel = 0]) {
+    if ((colorBuffer != null) && (colorBuffer is! RenderBuffer) && (colorBuffer is! Texture2D)) {
+      throw new ArgumentError('colorTarget must be a RenderBuffer or Texture2D.');
     }
     if (i < 0 || i >= _drawBuffers.length) {
-      throw new ArgumentError('Invalid color target index. Index must be within'
-                              '0 and ${_drawBuffers.length}}');
+      throw new ArgumentError('Invalid color target index. Index must be within' '0 and ${_drawBuffers.length}}');
     }
     var r = _colorTargets[i];
     _colorTargets[i] = colorBuffer;
@@ -103,20 +95,11 @@ class RenderTarget extends DeviceChild {
     }
     var old = device.context.setRenderTarget(this);
     if (colorBuffer == null) {
-      device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.COLOR_ATTACHMENT0 + i,
-                                        WebGL.RENDERBUFFER,
-                                        null);
+      device.gl.framebufferRenderbuffer(_bindTarget, WebGL.COLOR_ATTACHMENT0 + i, WebGL.RENDERBUFFER, null);
     } else if (colorBuffer is RenderBuffer) {
-      device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.COLOR_ATTACHMENT0 + i,
-                                        WebGL.RENDERBUFFER,
-                                        colorBuffer._buffer);
+      device.gl.framebufferRenderbuffer(_bindTarget, WebGL.COLOR_ATTACHMENT0 + i, WebGL.RENDERBUFFER, colorBuffer._buffer);
     } else if (colorBuffer is Texture2D) {
-      device.gl.framebufferTexture2D(_bindTarget,
-                                     WebGL.COLOR_ATTACHMENT0 + i,
-                                     colorBuffer._textureTarget,
-                                     colorBuffer._deviceTexture, mipLevel);
+      device.gl.framebufferTexture2D(_bindTarget, WebGL.COLOR_ATTACHMENT0 + i, colorBuffer._textureTarget, colorBuffer._deviceTexture, mipLevel);
     }
     _updateStatus();
     device.context.setRenderTarget(old);
@@ -126,31 +109,19 @@ class RenderTarget extends DeviceChild {
   /// Set the depth target to [depthBuffer].
   /// [depthBuffer] can be null, a [RenderBuffer] or a [Texture2D].
   /// An optional [mipLevel] can be specified for For [Texture2D] buffers.
-  dynamic setDepthTarget(dynamic depthBuffer, [int mipLevel=0]) {
-    if (depthBuffer != null &&
-        (depthBuffer is! RenderBuffer) &&
-        (depthBuffer is! Texture2D)) {
-      throw new ArgumentError(
-      'depthTarget must be a RenderBuffer or Texture2D.');
+  dynamic setDepthTarget(dynamic depthBuffer, [int mipLevel = 0]) {
+    if (depthBuffer != null && (depthBuffer is! RenderBuffer) && (depthBuffer is! Texture2D)) {
+      throw new ArgumentError('depthTarget must be a RenderBuffer or Texture2D.');
     }
     var r = _depthTarget;
     _depthTarget = depthBuffer;
     var old = device.context.setRenderTarget(this);
     if (depthBuffer == null) {
-      device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.DEPTH_ATTACHMENT,
-                                        WebGL.RENDERBUFFER,
-                                        null);
+      device.gl.framebufferRenderbuffer(_bindTarget, WebGL.DEPTH_ATTACHMENT, WebGL.RENDERBUFFER, null);
     } else if (depthBuffer is RenderBuffer) {
-      device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.DEPTH_ATTACHMENT,
-                                        WebGL.RENDERBUFFER,
-                                        depthBuffer._buffer);
+      device.gl.framebufferRenderbuffer(_bindTarget, WebGL.DEPTH_ATTACHMENT, WebGL.RENDERBUFFER, depthBuffer._buffer);
     } else if (depthBuffer is Texture2D) {
-      device.gl.framebufferTexture2D(_bindTarget,
-                                     WebGL.DEPTH_ATTACHMENT,
-                                     depthBuffer._textureTarget,
-                                     depthBuffer._deviceTexture, mipLevel);
+      device.gl.framebufferTexture2D(_bindTarget, WebGL.DEPTH_ATTACHMENT, depthBuffer._textureTarget, depthBuffer._deviceTexture, mipLevel);
     }
     _updateStatus();
     device.context.setRenderTarget(old);

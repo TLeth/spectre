@@ -51,16 +51,15 @@ class SurfaceFormat extends Enum {
   static const int Default = Rgba;
 
   static Map<String, int> _values = {
-    'SurfaceFormat.Rgba' : Rgba,
-    'SurfaceFormat.Rgb' : Rgb,
-    'SurfaceFormat.Dxt1' : Dxt1,
-    'SurfaceFormat.Dxt3' : Dxt3,
-    'SurfaceFormat.Dxt5' : Dxt5
+    'SurfaceFormat.Rgba': Rgba,
+    'SurfaceFormat.Rgb': Rgb,
+    'SurfaceFormat.Dxt1': Dxt1,
+    'SurfaceFormat.Dxt3': Dxt3,
+    'SurfaceFormat.Dxt5': Dxt5
   };
 
   /// Convert a [String] to a [SurfaceFormat].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [SurfaceFormat] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

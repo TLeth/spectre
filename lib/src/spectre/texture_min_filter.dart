@@ -40,17 +40,16 @@ class TextureMinFilter extends Enum {
   static const int Default = PointMipLinear;
 
   static Map<String, int> _values = {
-    'TextureMinFilter.Linear' : Linear,
-    'TextureMinFilter.Point' : Point,
-    'TextureMinFilter.PointMipPoint' : PointMipPoint,
-    'TextureMinFilter.PointMipLinear' : PointMipLinear,
-    'TextureMinFilter.LinearMipPoint' : LinearMipPoint,
-    'TextureMinFilter.LinearMipLinear' : LinearMipLinear,
+    'TextureMinFilter.Linear': Linear,
+    'TextureMinFilter.Point': Point,
+    'TextureMinFilter.PointMipPoint': PointMipPoint,
+    'TextureMinFilter.PointMipLinear': PointMipLinear,
+    'TextureMinFilter.LinearMipPoint': LinearMipPoint,
+    'TextureMinFilter.LinearMipLinear': LinearMipLinear,
   };
 
   /// Convert a [String] to a [TextureMinFilter].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [TextureMinFilter] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

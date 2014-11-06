@@ -56,12 +56,16 @@ class Viewport {
   /// The x-coordinate of the upper left corner of the viewport on the
   /// render-target surface.
   int get x => _x;
-  set x(int value) { _x = value; }
+  set x(int value) {
+    _x = value;
+  }
 
   /// The y-coordinate of the upper left corner of the viewport on the
   /// render-target surface.
-  int get y => _y ;
-  set y(int value) { _y = value; }
+  int get y => _y;
+  set y(int value) {
+    _y = value;
+  }
 
   /// The width of the viewport on the render-target surface, in pixels.
   /// Throws [ArgumentError] if [value] is not a positive number.
@@ -120,7 +124,7 @@ class Viewport {
     json[_xName] = _x;
     json[_yName] = _y;
 
-    json[_widthName]  = _width;
+    json[_widthName] = _width;
     json[_heightName] = _height;
 
     json[_minDepthName] = _minDepth;

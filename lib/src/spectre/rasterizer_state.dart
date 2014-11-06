@@ -91,8 +91,7 @@ class RasterizerState {
   /// [CullMode].
   set cullMode(int value) {
     if (!CullMode.isValid(value)) {
-      throw new ArgumentError(
-          'cullMode must be an enumeration within CullMode.');
+      throw new ArgumentError('cullMode must be an enumeration within CullMode.');
     }
 
     _cullMode = value;
@@ -106,8 +105,7 @@ class RasterizerState {
   /// [FrontFace].
   set frontFace(int value) {
     if (!FrontFace.isValid(value)) {
-      throw new ArgumentError(
-          'frontFace must be an enumeration within FrontFace.');
+      throw new ArgumentError('frontFace must be an enumeration within FrontFace.');
     }
 
     _frontFace = value;
@@ -121,7 +119,9 @@ class RasterizerState {
   /// problems for primitives of similar depth.
   /// The default value is 0.
   double get depthBias => _depthBias;
-  set depthBias(double value) { _depthBias = value; }
+  set depthBias(double value) {
+    _depthBias = value;
+  }
 
   /// A bias value that takes into account the slope of a polygon.
   /// This bias value is applied to coplanar primitives to reduce aliasing and
@@ -129,22 +129,26 @@ class RasterizerState {
   /// artifacts caused by z-fighting.
   /// The default is 0.
   double get slopeScaleDepthBias => _slopeScaleDepthBias;
-  set slopeScaleDepthBias(double value) { _slopeScaleDepthBias = value; }
+  set slopeScaleDepthBias(double value) {
+    _slopeScaleDepthBias = value;
+  }
 
   /// Whether scissor testing is enabled.
   /// ScissorTestEnable  Enables or disables scissor testing.
   /// The default is false.
   bool get scissorTestEnabled => _scissorTestEnabled;
-  set scissorTestEnabled(bool value) { _scissorTestEnabled = value; }
+  set scissorTestEnabled(bool value) {
+    _scissorTestEnabled = value;
+  }
 
   /// Serializes the [RasterizerState] to a JSON.
   dynamic toJson() {
     Map json = new Map();
 
-    json[_cullModeName]  = CullMode.stringify(_cullMode);
+    json[_cullModeName] = CullMode.stringify(_cullMode);
     json[_frontFaceName] = FrontFace.stringify(_frontFace);
 
-    json[_depthBiasName]           = _depthBias;
+    json[_depthBiasName] = _depthBias;
     json[_slopeScaleDepthBiasName] = _slopeScaleDepthBias;
 
     json[_scissorTestEnabledName] = _scissorTestEnabled;
@@ -161,7 +165,7 @@ class RasterizerState {
     value = values[_cullModeName];
     _cullMode = (value != null) ? CullMode.parse(value) : _cullMode;
     value = values[_frontFaceName];
-    _frontFace = (value != null) ? FrontFace.parse(value): _frontFace;
+    _frontFace = (value != null) ? FrontFace.parse(value) : _frontFace;
 
     value = values[_depthBiasName];
     _depthBias = (value != null) ? value : _depthBias;

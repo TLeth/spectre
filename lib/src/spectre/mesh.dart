@@ -29,8 +29,7 @@ class SpectreMeshAttribute {
 }
 
 abstract class SpectreMesh extends DeviceChild {
-  final Map<String, SpectreMeshAttribute> attributes =
-      new Map<String, SpectreMeshAttribute>();
+  final Map<String, SpectreMeshAttribute> attributes = new Map<String, SpectreMeshAttribute>();
   int count = 0;
   int primitiveTopology = PrimitiveTopology.Triangles;
   SpectreMesh(String name, GraphicsDevice device)

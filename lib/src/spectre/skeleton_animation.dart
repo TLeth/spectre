@@ -38,31 +38,30 @@ class BoneAnimation {
   Float32List _rotationValues;
   Float32List _scaleTimes;
   Float32List _scaleValues;
-  
+
   Float32x4List positionValues4;
   Float32x4List rotationValues4;
   Float32x4List scaleValues4;
-  
+
   final Float32List _positionMatrix = new Float32List(16);
   final Float32List _rotationMatrix = new Float32List(16);
   final Float32List _scaleMatrix = new Float32List(16);
-  
+
   Float32x4List _positionMatrix4;
   Float32x4List _rotationMatrix4;
   Float32x4List _scaleMatrix4;
 
   /// Construct bone animation with [boneName]. Animation key frames
   /// will be loaded from [positions], [rotations], and [scales].
-  BoneAnimation(this.boneName, this.boneIndex, List<Map> positions,
-                List<Map> rotations, List<Map> scales) {
+  BoneAnimation(this.boneName, this.boneIndex, List<Map> positions, List<Map> rotations, List<Map> scales) {
     updatePositions(positions);
     updateRotations(rotations);
     updateScales(scales);
-    
+
     positionValues4 = new Float32x4List.view(_positionValues.buffer);
     rotationValues4 = new Float32x4List.view(_rotationValues.buffer);
     scaleValues4 = new Float32x4List.view(_scaleValues.buffer);
-    
+
     _positionMatrix4 = new Float32x4List.view(_positionMatrix.buffer);
     _rotationMatrix4 = new Float32x4List.view(_rotationMatrix.buffer);
     _scaleMatrix4 = new Float32x4List.view(_scaleMatrix.buffer);
@@ -83,7 +82,7 @@ class BoneAnimation {
   /// All position animation frames will be zero.
   void setPositionAnimationLength(int length) {
     _positionTimes = new Float32List(length);
-    _positionValues = new Float32List(length*4);
+    _positionValues = new Float32List(length * 4);
     _positionTimes[0] = 0.0;
     _positionValues[0] = 0.0;
     _positionValues[1] = 0.0;
@@ -98,13 +97,13 @@ class BoneAnimation {
       return;
     }
     _positionTimes = new Float32List(positions.length);
-    _positionValues = new Float32List(positions.length*4);
+    _positionValues = new Float32List(positions.length * 4);
     for (int i = 0; i < _positionTimes.length; i++) {
       _positionTimes[i] = positions[i]['time'].toDouble();
-      _positionValues[i*4+0] = positions[i]['value'][0].toDouble();
-      _positionValues[i*4+1] = positions[i]['value'][1].toDouble();
-      _positionValues[i*4+2] = positions[i]['value'][2].toDouble();
-      _positionValues[i*4+3] = 1.0;
+      _positionValues[i * 4 + 0] = positions[i]['value'][0].toDouble();
+      _positionValues[i * 4 + 1] = positions[i]['value'][1].toDouble();
+      _positionValues[i * 4 + 2] = positions[i]['value'][2].toDouble();
+      _positionValues[i * 4 + 3] = 1.0;
     }
   }
 
@@ -123,7 +122,7 @@ class BoneAnimation {
   /// All rotation animation frames will be zero.
   void setRotationAnimationLength(int length) {
     _rotationTimes = new Float32List(length);
-    _rotationValues = new Float32List(length*4);
+    _rotationValues = new Float32List(length * 4);
     _rotationTimes[0] = 0.0;
     _rotationValues[0] = 0.0;
     _rotationValues[1] = 0.0;
@@ -138,13 +137,13 @@ class BoneAnimation {
       return;
     }
     _rotationTimes = new Float32List(rotations.length);
-    _rotationValues = new Float32List(rotations.length*4);
+    _rotationValues = new Float32List(rotations.length * 4);
     for (int i = 0; i < _rotationTimes.length; i++) {
       _rotationTimes[i] = rotations[i]['time'].toDouble();
-      _rotationValues[i*4+0] = rotations[i]['value'][0].toDouble();
-      _rotationValues[i*4+1] = rotations[i]['value'][1].toDouble();
-      _rotationValues[i*4+2] = rotations[i]['value'][2].toDouble();
-      _rotationValues[i*4+3] = rotations[i]['value'][3].toDouble();
+      _rotationValues[i * 4 + 0] = rotations[i]['value'][0].toDouble();
+      _rotationValues[i * 4 + 1] = rotations[i]['value'][1].toDouble();
+      _rotationValues[i * 4 + 2] = rotations[i]['value'][2].toDouble();
+      _rotationValues[i * 4 + 3] = rotations[i]['value'][3].toDouble();
     }
   }
 
@@ -163,7 +162,7 @@ class BoneAnimation {
   /// All scale animation frames will be zero.
   void setScaleAnimationLength(int length) {
     _scaleTimes = new Float32List(length);
-    _scaleValues = new Float32List(length*4);
+    _scaleValues = new Float32List(length * 4);
     _scaleTimes[0] = 0.0;
     _scaleValues[0] = 1.0;
     _scaleValues[1] = 1.0;
@@ -178,19 +177,19 @@ class BoneAnimation {
       return;
     }
     _scaleTimes = new Float32List(scales.length);
-    _scaleValues = new Float32List(scales.length*4);
+    _scaleValues = new Float32List(scales.length * 4);
     for (int i = 0; i < _scaleTimes.length; i++) {
       _scaleTimes[i] = scales[i]['time'].toDouble();
-      _scaleValues[i*4+0] = scales[i]['value'][0].toDouble();
-      _scaleValues[i*4+1] = scales[i]['value'][1].toDouble();
-      _scaleValues[i*4+2] = scales[i]['value'][2].toDouble();
-      _scaleValues[i*4+3] = 1.0;
+      _scaleValues[i * 4 + 0] = scales[i]['value'][0].toDouble();
+      _scaleValues[i * 4 + 1] = scales[i]['value'][1].toDouble();
+      _scaleValues[i * 4 + 2] = scales[i]['value'][2].toDouble();
+      _scaleValues[i * 4 + 3] = 1.0;
     }
   }
 
   int _findTime(Float32List timeList, double t) {
-    for (int i = 0; i < timeList.length-1; i++) {
-      if (t < timeList[i+1]) {
+    for (int i = 0; i < timeList.length - 1; i++) {
+      if (t < timeList[i + 1]) {
         return i;
       }
     }
@@ -208,7 +207,7 @@ class BoneAnimation {
   int _findRotationIndex(double t) {
     return _findTime(_rotationTimes, t) << 2;
   }
-  
+
   void buildTransformMatricesAtTime(double t) {
     int positionIndex = _findPositionIndex(t);
     int rotationIndex = _findRotationIndex(t);
@@ -216,10 +215,10 @@ class BoneAnimation {
     assert(positionIndex >= 0);
     assert(rotationIndex >= 0);
     assert(scaleIndex >= 0);
-    
-    double sx = _scaleValues[scaleIndex+0];
-    double sy = _scaleValues[scaleIndex+1];
-    double sz = _scaleValues[scaleIndex+2];
+
+    double sx = _scaleValues[scaleIndex + 0];
+    double sy = _scaleValues[scaleIndex + 1];
+    double sz = _scaleValues[scaleIndex + 2];
 
     _scaleMatrix[0] = sx;
     _scaleMatrix[5] = sy;
@@ -229,15 +228,15 @@ class BoneAnimation {
     _positionMatrix[0] = 1.0;
     _positionMatrix[5] = 1.0;
     _positionMatrix[10] = 1.0;
-    _positionMatrix[12] = _positionValues[positionIndex+0];
-    _positionMatrix[13] = _positionValues[positionIndex+1];
-    _positionMatrix[14] = _positionValues[positionIndex+2];
+    _positionMatrix[12] = _positionValues[positionIndex + 0];
+    _positionMatrix[13] = _positionValues[positionIndex + 1];
+    _positionMatrix[14] = _positionValues[positionIndex + 2];
     _positionMatrix[15] = 1.0;
 
-    double x = _rotationValues[rotationIndex+0];
-    double y = _rotationValues[rotationIndex+1];
-    double z = _rotationValues[rotationIndex+2];
-    double w = _rotationValues[rotationIndex+3];
+    double x = _rotationValues[rotationIndex + 0];
+    double y = _rotationValues[rotationIndex + 1];
+    double z = _rotationValues[rotationIndex + 2];
+    double w = _rotationValues[rotationIndex + 3];
     double x2 = x + x;
     double y2 = y + y;
     double z2 = z + z;
@@ -268,21 +267,17 @@ class BoneAnimation {
   /// Does not interpolate between key frames.
   void setBoneMatrixAtTime(double t, Float32List boneMatrix) {
     buildTransformMatricesAtTime(t);
-    Matrix44Operations.multiply(boneMatrix, 0, _scaleMatrix, 0,
-                                _rotationMatrix, 0);
-    Matrix44Operations.multiply(boneMatrix, 0, _positionMatrix, 0,
-                                boneMatrix, 0);
+    Matrix44Operations.multiply(boneMatrix, 0, _scaleMatrix, 0, _rotationMatrix, 0);
+    Matrix44Operations.multiply(boneMatrix, 0, _positionMatrix, 0, boneMatrix, 0);
   }
-  
+
   /// Set [boneMatrix] to correspond to bone animation at time [t].
   /// Does not interpolate between key frames.
   void setBoneMatrixAtTimeSIMD(double t, Float32x4List boneMatrix) {
     buildTransformMatricesAtTime(t);
-    
-    Matrix44SIMDOperations.multiply(boneMatrix, 0, _scaleMatrix4, 0,
-                                    _rotationMatrix4, 0);
-    Matrix44SIMDOperations.multiply(boneMatrix, 0, _positionMatrix4, 0,
-                                    boneMatrix, 0);
+
+    Matrix44SIMDOperations.multiply(boneMatrix, 0, _scaleMatrix4, 0, _rotationMatrix4, 0);
+    Matrix44SIMDOperations.multiply(boneMatrix, 0, _positionMatrix4, 0, boneMatrix, 0);
   }
 
   /// Set bone matrix [transform] to correspond to bone animation at time [t].
@@ -295,14 +290,12 @@ class BoneAnimation {
 /// Key frame animation data for an entire skeleton.
 class SkeletonAnimation {
   final String name;
-  final Map<String, BoneAnimation> boneAnimations =
-      new Map<String, BoneAnimation>();
+  final Map<String, BoneAnimation> boneAnimations = new Map<String, BoneAnimation>();
   final List<BoneAnimation> boneList;
-  SkeletonAnimation(this.name, int length) :
-    boneList = new List<BoneAnimation>(length);
+  SkeletonAnimation(this.name, int length) : boneList = new List<BoneAnimation>(length);
 
   double runTime = 0.0;
-  double timeScale = 1.0/24.0;
+  double timeScale = 1.0 / 24.0;
 
   bool boneHasAnimation(String boneName) {
     return boneAnimations[boneName] != null;

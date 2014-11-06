@@ -24,8 +24,7 @@ class InputLayout extends DeviceChild {
   /** List of active attributes. */
   final List<VertexAttribute> attributes = new List<VertexAttribute>();
   /** List of attributes expected by the shader but missing from the mesh. */
-  final List<ShaderProgramAttribute> missingAttributes =
-      new List<ShaderProgramAttribute>();
+  final List<ShaderProgramAttribute> missingAttributes = new List<ShaderProgramAttribute>();
 
   ShaderProgram _shaderProgram;
   ShaderProgram get shaderProgram => _shaderProgram;
@@ -46,8 +45,7 @@ class InputLayout extends DeviceChild {
   /** In order for a InputLayout to be ready the mesh must have
    * all the attributes the shader program requires.
    */
-  bool get ready => _shaderProgram != null && _mesh != null &&
-                    missingAttributes.length == 0;
+  bool get ready => _shaderProgram != null && _mesh != null && missingAttributes.length == 0;
 
   void _refresh() {
     attributes.clear();
@@ -72,9 +70,7 @@ class InputLayout extends DeviceChild {
       if (meshAttribute == null) {
         missingAttributes.add(shaderProgramAttribute);
       } else {
-        VertexAttribute element = new VertexAttribute.atAttributeIndex(
-            meshAttribute.attribute,
-            shaderProgramAttribute.location);
+        VertexAttribute element = new VertexAttribute.atAttributeIndex(meshAttribute.attribute, shaderProgramAttribute.location);
         attributes.add(element);
       }
     });

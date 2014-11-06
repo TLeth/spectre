@@ -111,8 +111,8 @@ class FpsFlyCameraController extends CameraController {
     Vector3 strafeDirection = frontDirection.cross(upDirection);
     strafeDirection.normalize();
 
-    double mouseYawDelta = accumDX/mouseSensitivity;
-    double mousePitchDelta = accumDY/mouseSensitivity;
+    double mouseYawDelta = accumDX / mouseSensitivity;
+    double mousePitchDelta = accumDY / mouseSensitivity;
     accumDX = 0;
     accumDY = 0;
 
@@ -123,8 +123,7 @@ class FpsFlyCameraController extends CameraController {
     final double pitchDegrees = degrees(pitchAngle);
     final double minPitchDegrees = degrees(minPitchAngle);
     final double maxPitchDegrees = degrees(maxPitchAngle);
-    if (pitchAngle+mousePitchDelta <= maxPitchAngle &&
-        pitchAngle+mousePitchDelta >= minPitchAngle) {
+    if (pitchAngle + mousePitchDelta <= maxPitchAngle && pitchAngle + mousePitchDelta >= minPitchAngle) {
       _RotateEyeAndLook(mousePitchDelta, strafeDirection, cam);
     }
     _RotateEyeAndLook(mouseYawDelta, upDirection, cam);

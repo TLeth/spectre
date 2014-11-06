@@ -31,14 +31,13 @@ class PrimitiveTopology extends Enum {
   static const int Default = Triangles;
 
   static Map<String, int> _values = {
-    'PrimitiveTopology.Triangles' : Triangles,
-    'PrimitiveTopology.Lines' : Lines,
-    'PrimitiveTopology.Points' : Points
+    'PrimitiveTopology.Triangles': Triangles,
+    'PrimitiveTopology.Lines': Lines,
+    'PrimitiveTopology.Points': Points
   };
 
   /// Convert a [String] to a [PrimitiveTopology].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [PrimitiveTopology] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

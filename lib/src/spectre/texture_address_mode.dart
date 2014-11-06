@@ -45,13 +45,12 @@ class TextureAddressMode extends Enum {
   static const int Default = Wrap;
 
   static Map<String, int> _values = {
-    'TextureAddressMode.Clamp' : Clamp,
-    'TextureAddressMode.Mirror' : Mirror,
-    'TextureAddressMode.Wrap' : Wrap
+    'TextureAddressMode.Clamp': Clamp,
+    'TextureAddressMode.Mirror': Mirror,
+    'TextureAddressMode.Wrap': Wrap
   };
   /// Convert a [String] to a [TextureAddressMode].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [TextureAddressMode] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

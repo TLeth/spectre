@@ -31,8 +31,7 @@ class SpectreBuffer extends DeviceChild {
   int _usage = UsagePattern.DynamicDraw;
   int _size = 0;
 
-  SpectreBuffer(String name, GraphicsDevice device,
-                this._bindTarget, this._bindingParam)
+  SpectreBuffer(String name, GraphicsDevice device, this._bindTarget, this._bindingParam)
       : super._internal(name, device) {
     _deviceBuffer = device.gl.createBuffer();
   }
@@ -85,8 +84,7 @@ class SpectreBuffer extends DeviceChild {
       throw new ArgumentError('data cannot be null.');
     }
     if (offset + data.lengthInBytes > _size) {
-      throw new RangeError('data is too large ${offset + data.lengthInBytes} '
-                           '> ${_size}');
+      throw new RangeError('data is too large ${offset + data.lengthInBytes} ' '> ${_size}');
     }
     var oldBind = _pushBind();
     _uploadSubData(offset, data);

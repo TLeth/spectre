@@ -96,27 +96,16 @@ class GraphicsContext {
   void _initializeState() {
     // Viewport setup
     _viewport = new Viewport();
-    device.gl.viewport(_viewport.x, _viewport.y, _viewport.width,
-                      _viewport.height);
+    device.gl.viewport(_viewport.x, _viewport.y, _viewport.width, _viewport.height);
     device.gl.depthRange(_viewport.minDepth, _viewport.maxDepth);
     // BlendState setup
     _blendStateDefault = new BlendState.opaque();
     _blendState = new BlendState.opaque();
     device.gl.disable(WebGL.BLEND);
-    device.gl.blendFuncSeparate(_blendState.colorSourceBlend,
-                                _blendState.colorDestinationBlend,
-                                _blendState.alphaSourceBlend,
-                                _blendState.alphaDestinationBlend);
-    device.gl.blendEquationSeparate(_blendState.colorBlendOperation,
-                                    _blendState.alphaBlendOperation);
-    device.gl.colorMask(_blendState.writeRenderTargetRed,
-                        _blendState.writeRenderTargetGreen,
-                        _blendState.writeRenderTargetBlue,
-                        _blendState.writeRenderTargetAlpha);
-    device.gl.blendColor(_blendState.blendFactorRed,
-                         _blendState.blendFactorGreen,
-                         _blendState.blendFactorBlue,
-                         _blendState.blendFactorAlpha);
+    device.gl.blendFuncSeparate(_blendState.colorSourceBlend, _blendState.colorDestinationBlend, _blendState.alphaSourceBlend, _blendState.alphaDestinationBlend);
+    device.gl.blendEquationSeparate(_blendState.colorBlendOperation, _blendState.alphaBlendOperation);
+    device.gl.colorMask(_blendState.writeRenderTargetRed, _blendState.writeRenderTargetGreen, _blendState.writeRenderTargetBlue, _blendState.writeRenderTargetAlpha);
+    device.gl.blendColor(_blendState.blendFactorRed, _blendState.blendFactorGreen, _blendState.blendFactorBlue, _blendState.blendFactorAlpha);
     // DepthState setup
     _depthStateDefault = new DepthState.depthWrite();
     _depthState = new DepthState.depthWrite();
@@ -130,8 +119,7 @@ class GraphicsContext {
     device.gl.cullFace(_rasterizerState.cullMode);
     device.gl.frontFace(_rasterizerState.frontFace);
     device.gl.disable(WebGL.POLYGON_OFFSET_FILL);
-    device.gl.polygonOffset(_rasterizerState.depthBias,
-                            _rasterizerState.slopeScaleDepthBias);
+    device.gl.polygonOffset(_rasterizerState.depthBias, _rasterizerState.slopeScaleDepthBias);
     device.gl.disable(WebGL.SCISSOR_TEST);
   }
 
@@ -170,12 +158,7 @@ class GraphicsContext {
       }
       device.gl.enableVertexAttribArray(element.attributeIndex);
       vb._bind();
-      device.gl.vertexAttribPointer(element.attributeIndex,
-        element.dataCount,
-        element.dataType,
-        element.normalizeData,
-        element.attributeStride,
-        element.attributeOffset);
+      device.gl.vertexAttribPointer(element.attributeIndex, element.dataCount, element.dataType, element.normalizeData, element.attributeStride, element.attributeOffset);
       // Remember that this was enabled.
       _enabledVertexAttributeArrays.add(element.attributeIndex);
     });
@@ -239,8 +222,7 @@ class GraphicsContext {
     if (_indexBuffer != indexBuffer) {
       _indexBuffer = indexBuffer;
       if (indexBuffer != null) {
-        device.gl.bindBuffer(WebGL.ELEMENT_ARRAY_BUFFER,
-                             indexBuffer._deviceBuffer);
+        device.gl.bindBuffer(WebGL.ELEMENT_ARRAY_BUFFER, indexBuffer._deviceBuffer);
       } else {
         device.gl.bindBuffer(WebGL.ELEMENT_ARRAY_BUFFER, null);
       }
@@ -253,7 +235,7 @@ class GraphicsContext {
   void setVertexBuffers(int startSlot, List<VertexBuffer> vertexBufferHandles) {
     int limit = vertexBufferHandles.length + startSlot;
     for (int i = startSlot; i < limit; i++) {
-      _vertexBuffers[i] = vertexBufferHandles[i-startSlot];
+      _vertexBuffers[i] = vertexBufferHandles[i - startSlot];
     }
     _preparedInputLayoutHandle = null;
   }
@@ -310,20 +292,15 @@ class GraphicsContext {
       return;
     }
 
-    if ((_viewport.x      != viewport.x)     ||
-        (_viewport.y      != viewport.y)     ||
-        (_viewport.width  != viewport.width) ||
-        (_viewport.height != viewport.height)) {
-      device.gl.viewport(viewport.x, viewport.y,
-                         viewport.width, viewport.height);
-      _viewport.x      = viewport.x;
-      _viewport.y      = viewport.y;
-      _viewport.width  = viewport.width;
+    if ((_viewport.x != viewport.x) || (_viewport.y != viewport.y) || (_viewport.width != viewport.width) || (_viewport.height != viewport.height)) {
+      device.gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+      _viewport.x = viewport.x;
+      _viewport.y = viewport.y;
+      _viewport.width = viewport.width;
       _viewport.height = viewport.height;
     }
 
-    if ((_viewport.minDepth != viewport.minDepth) ||
-        (_viewport.maxDepth != viewport.maxDepth)) {
+    if ((_viewport.minDepth != viewport.minDepth) || (_viewport.maxDepth != viewport.maxDepth)) {
       device.gl.depthRange(viewport.minDepth, viewport.maxDepth);
       _viewport.minDepth = viewport.minDepth;
       _viewport.maxDepth = viewport.maxDepth;
@@ -352,74 +329,40 @@ class GraphicsContext {
     }
 
     // Modify the color write channels if necessary
-    if ((_blendState.writeRenderTargetRed !=
-         blendState.writeRenderTargetRed) ||
-        (_blendState.writeRenderTargetGreen !=
-         blendState.writeRenderTargetGreen) ||
-        (_blendState.writeRenderTargetBlue  !=
-         blendState.writeRenderTargetBlue)  ||
-        (_blendState.writeRenderTargetAlpha !=
-         blendState.writeRenderTargetAlpha)) {
-      device.gl.colorMask(
-        blendState.writeRenderTargetRed,
-        blendState.writeRenderTargetGreen,
-        blendState.writeRenderTargetBlue,
-        blendState.writeRenderTargetAlpha
-      );
+    if ((_blendState.writeRenderTargetRed != blendState.writeRenderTargetRed) || (_blendState.writeRenderTargetGreen != blendState.writeRenderTargetGreen) || (_blendState.writeRenderTargetBlue != blendState.writeRenderTargetBlue) || (_blendState.writeRenderTargetAlpha != blendState.writeRenderTargetAlpha)) {
+      device.gl.colorMask(blendState.writeRenderTargetRed, blendState.writeRenderTargetGreen, blendState.writeRenderTargetBlue, blendState.writeRenderTargetAlpha);
 
-      _blendState.writeRenderTargetRed   = blendState.writeRenderTargetRed;
+      _blendState.writeRenderTargetRed = blendState.writeRenderTargetRed;
       _blendState.writeRenderTargetGreen = blendState.writeRenderTargetGreen;
-      _blendState.writeRenderTargetBlue  = blendState.writeRenderTargetBlue;
+      _blendState.writeRenderTargetBlue = blendState.writeRenderTargetBlue;
       _blendState.writeRenderTargetAlpha = blendState.writeRenderTargetAlpha;
     }
 
     // If blending is enabled enable all the functionality
     if (_blendState.enabled) {
       // Modify the blend functions if necessary
-      if ((_blendState.colorSourceBlend !=
-           blendState.colorSourceBlend) ||
-          (_blendState.colorDestinationBlend !=
-           blendState.colorDestinationBlend) ||
-          (_blendState.alphaSourceBlend !=
-           blendState.alphaSourceBlend) ||
-          (_blendState.alphaDestinationBlend !=
-           blendState.alphaDestinationBlend)) {
-        device.gl.blendFuncSeparate(
-          blendState.colorSourceBlend,
-          blendState.colorDestinationBlend,
-          blendState.alphaSourceBlend,
-          blendState.alphaDestinationBlend
-        );
+      if ((_blendState.colorSourceBlend != blendState.colorSourceBlend) || (_blendState.colorDestinationBlend != blendState.colorDestinationBlend) || (_blendState.alphaSourceBlend != blendState.alphaSourceBlend) || (_blendState.alphaDestinationBlend != blendState.alphaDestinationBlend)) {
+        device.gl.blendFuncSeparate(blendState.colorSourceBlend, blendState.colorDestinationBlend, blendState.alphaSourceBlend, blendState.alphaDestinationBlend);
 
-        _blendState.colorSourceBlend      = blendState.colorSourceBlend;
+        _blendState.colorSourceBlend = blendState.colorSourceBlend;
         _blendState.colorDestinationBlend = blendState.colorDestinationBlend;
-        _blendState.alphaSourceBlend      = blendState.alphaSourceBlend;
+        _blendState.alphaSourceBlend = blendState.alphaSourceBlend;
         _blendState.alphaDestinationBlend = blendState.alphaDestinationBlend;
       }
 
       // Modify the blend operations if necessary
-      if ((_blendState.colorBlendOperation != blendState.colorBlendOperation) ||
-          (_blendState.alphaBlendOperation != blendState.alphaBlendOperation))
-      {
-        device.gl.blendEquationSeparate(blendState.colorBlendOperation,
-                                        blendState.alphaBlendOperation);
+      if ((_blendState.colorBlendOperation != blendState.colorBlendOperation) || (_blendState.alphaBlendOperation != blendState.alphaBlendOperation)) {
+        device.gl.blendEquationSeparate(blendState.colorBlendOperation, blendState.alphaBlendOperation);
         _blendState.colorBlendOperation = blendState.colorBlendOperation;
         _blendState.alphaBlendOperation = blendState.alphaBlendOperation;
       }
 
       // Modify the blend factor if necessary
-      if ((_blendState.blendFactorRed   != blendState.blendFactorRed)   ||
-          (_blendState.blendFactorGreen != blendState.blendFactorGreen) ||
-          (_blendState.blendFactorBlue  != blendState.blendFactorBlue)  ||
-          (_blendState.blendFactorAlpha != blendState.blendFactorAlpha))
-      {
-        device.gl.blendColor(blendState.blendFactorRed,
-                             blendState.blendFactorGreen,
-                             blendState.blendFactorBlue,
-                             blendState.blendFactorAlpha);
-        _blendState.blendFactorRed   = blendState.blendFactorRed;
+      if ((_blendState.blendFactorRed != blendState.blendFactorRed) || (_blendState.blendFactorGreen != blendState.blendFactorGreen) || (_blendState.blendFactorBlue != blendState.blendFactorBlue) || (_blendState.blendFactorAlpha != blendState.blendFactorAlpha)) {
+        device.gl.blendColor(blendState.blendFactorRed, blendState.blendFactorGreen, blendState.blendFactorBlue, blendState.blendFactorAlpha);
+        _blendState.blendFactorRed = blendState.blendFactorRed;
         _blendState.blendFactorGreen = blendState.blendFactorGreen;
-        _blendState.blendFactorBlue  = blendState.blendFactorBlue;
+        _blendState.blendFactorBlue = blendState.blendFactorBlue;
         _blendState.blendFactorAlpha = blendState.blendFactorAlpha;
       }
     }
@@ -444,14 +387,12 @@ class GraphicsContext {
       _depthState.depthBufferEnabled = depthState.depthBufferEnabled;
     }
 
-    if ((_depthState.depthBufferEnabled) &&
-        (_depthState.depthBufferFunction != depthState.depthBufferFunction)) {
+    if ((_depthState.depthBufferEnabled) && (_depthState.depthBufferFunction != depthState.depthBufferFunction)) {
       device.gl.depthFunc(depthState.depthBufferFunction);
       _depthState.depthBufferFunction = depthState.depthBufferFunction;
     }
 
-    if (_depthState.depthBufferWriteEnabled !=
-        depthState.depthBufferWriteEnabled) {
+    if (_depthState.depthBufferWriteEnabled != depthState.depthBufferWriteEnabled) {
       device.gl.depthMask(depthState.depthBufferWriteEnabled);
       _depthState.depthBufferWriteEnabled = depthState.depthBufferWriteEnabled;
     }
@@ -495,39 +436,30 @@ class GraphicsContext {
       }
     }
 
-    bool offsetEnabled = ((_rasterizerState.depthBias != 0.0) ||
-                         (_rasterizerState.slopeScaleDepthBias != 0.0));
+    bool offsetEnabled = ((_rasterizerState.depthBias != 0.0) || (_rasterizerState.slopeScaleDepthBias != 0.0));
 
-    if ((rasterizerState.depthBias != 0.0) ||
-        (rasterizerState.slopeScaleDepthBias != 0)) {
+    if ((rasterizerState.depthBias != 0.0) || (rasterizerState.slopeScaleDepthBias != 0)) {
       // Enable polygon offset
       if (!offsetEnabled) {
         device.gl.enable(WebGL.POLYGON_OFFSET_FILL);
       }
       // Modify the polygon offset if necessary
-      if ((_rasterizerState.depthBias != rasterizerState.depthBias) ||
-          (_rasterizerState.slopeScaleDepthBias !=
-           rasterizerState.slopeScaleDepthBias))
-      {
-        device.gl.polygonOffset(rasterizerState.depthBias,
-                                rasterizerState.slopeScaleDepthBias);
+      if ((_rasterizerState.depthBias != rasterizerState.depthBias) || (_rasterizerState.slopeScaleDepthBias != rasterizerState.slopeScaleDepthBias)) {
+        device.gl.polygonOffset(rasterizerState.depthBias, rasterizerState.slopeScaleDepthBias);
         _rasterizerState.depthBias = rasterizerState.depthBias;
-        _rasterizerState.slopeScaleDepthBias =
-            rasterizerState.slopeScaleDepthBias;
+        _rasterizerState.slopeScaleDepthBias = rasterizerState.slopeScaleDepthBias;
       }
     } else {
       // Disable polygon offset
       if (offsetEnabled) {
         device.gl.disable(WebGL.POLYGON_OFFSET_FILL);
         _rasterizerState.depthBias = rasterizerState.depthBias;
-        _rasterizerState.slopeScaleDepthBias =
-            rasterizerState.slopeScaleDepthBias;
+        _rasterizerState.slopeScaleDepthBias = rasterizerState.slopeScaleDepthBias;
       }
     }
 
     // Disable/Enable scissor test if necessary
-    if (_rasterizerState.scissorTestEnabled !=
-        rasterizerState.scissorTestEnabled) {
+    if (_rasterizerState.scissorTestEnabled != rasterizerState.scissorTestEnabled) {
       if (rasterizerState.scissorTestEnabled) {
         device.gl.enable(WebGL.SCISSOR_TEST);
       } else {
@@ -542,8 +474,7 @@ class GraphicsContext {
     var old = _renderTarget;
     if (_renderTarget != renderTarget) {
       if (renderTarget != null) {
-        device.gl.bindFramebuffer(WebGL.FRAMEBUFFER,
-                                  renderTarget._deviceFramebuffer);
+        device.gl.bindFramebuffer(WebGL.FRAMEBUFFER, renderTarget._deviceFramebuffer);
       } else {
         device.gl.bindFramebuffer(WebGL.FRAMEBUFFER, null);
       }
@@ -564,7 +495,7 @@ class GraphicsContext {
     ShaderProgramUniform uniform = _findUniform(name);
     if (uniform != null) {
       uniform._apply(device, uniform.location, argument);
-    } else if (_shaderProgram == null ){
+    } else if (_shaderProgram == null) {
       _spectreLog.shout('Cannot set $name: no ShaderProgram bound.');
     } else {
       //spectreLog.Error('Cannot set $name: not found.');
@@ -594,8 +525,7 @@ class GraphicsContext {
 
   /// Clear color buffer to ([r], [g], [b], [a]) and clear the depth buffer
   /// to [d].
-  void clearColorAndDepthBuffer(double r, double g, double b, double a,
-                                double d) {
+  void clearColorAndDepthBuffer(double r, double g, double b, double a, double d) {
     clearColorBuffer(r, g, b, a);
     clearDepthBuffer(d);
   }
@@ -654,23 +584,19 @@ class GraphicsContext {
     }
 
     if (texture._textureWrapS != textureWrapS) {
-      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_WRAP_S,
-                              textureWrapS);
+      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_WRAP_S, textureWrapS);
       texture._textureWrapS = textureWrapS;
     }
     if (texture._textureWrapT != textureWrapT) {
-      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_WRAP_T,
-                              textureWrapT);
+      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_WRAP_T, textureWrapT);
       texture._textureWrapT = textureWrapT;
     }
     if (texture._textureMinFilter != textureMinFilter) {
-      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_MIN_FILTER,
-                              textureMinFilter);
+      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_MIN_FILTER, textureMinFilter);
       texture._textureMinFilter = textureMinFilter;
     }
     if (texture._textureMagFilter != textureMagFilter) {
-      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_MAG_FILTER,
-                              textureMagFilter);
+      device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_MAG_FILTER, textureMagFilter);
       texture._textureMagFilter = textureMagFilter;
     }
   }
@@ -693,11 +619,8 @@ class GraphicsContext {
     _prepareInputs();
     _prepareTextures();
     if (device.capabilities.hasMultipleRenderTargets) {
-      if ((_renderTarget != null) &&
-          (_renderTarget != RenderTarget.systemRenderTarget) &&
-          (_lastRenderTarget != _renderTarget)) {
-        device.capabilities._multipleRenderTargets.drawBuffersWebgl(
-            _renderTarget._drawBuffers);
+      if ((_renderTarget != null) && (_renderTarget != RenderTarget.systemRenderTarget) && (_lastRenderTarget != _renderTarget)) {
+        device.capabilities._multipleRenderTargets.drawBuffersWebgl(_renderTarget._drawBuffers);
         _lastRenderTarget = _renderTarget;
       }
     }
@@ -709,8 +632,7 @@ class GraphicsContext {
       return;
     }
     _preDraw();
-    device.gl.drawElements(_primitiveTopology, numIndices,
-                           WebGL.UNSIGNED_SHORT, indexOffset);
+    device.gl.drawElements(_primitiveTopology, numIndices, WebGL.UNSIGNED_SHORT, indexOffset);
   }
 
   void drawIndexedMesh(SingleArrayIndexedMesh indexedMesh) {

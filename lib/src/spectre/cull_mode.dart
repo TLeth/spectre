@@ -32,14 +32,13 @@ class CullMode extends Enum {
   static const int Default = Back;
 
   static Map<String, int> _values = {
-    'CullMode.None' : None,
-    'CullMode.Front' : Front,
-    'CullMode.Back' : Back
+    'CullMode.None': None,
+    'CullMode.Front': Front,
+    'CullMode.Back': Back
   };
 
   /// Convert a [String] to a [CullMode].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [CullMode] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

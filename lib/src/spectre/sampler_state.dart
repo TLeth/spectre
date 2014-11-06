@@ -85,11 +85,11 @@ class SamplerState extends DeviceChild {
   ///     minFilter = TextureMinFilter.Linear;
   ///     magFilter = TextureMagFilter.Linear;
   SamplerState.linearClamp(String name, GraphicsDevice device)
-    : super._internal(name, device),
-      _addressU = TextureAddressMode.Clamp,
-      _addressV = TextureAddressMode.Clamp,
-      _minFilter = TextureMinFilter.Linear,
-      _magFilter = TextureMagFilter.Linear;
+      : super._internal(name, device),
+        _addressU = TextureAddressMode.Clamp,
+        _addressV = TextureAddressMode.Clamp,
+        _minFilter = TextureMinFilter.Linear,
+        _magFilter = TextureMagFilter.Linear;
 
   /// Initializes an instance of [SamplerState] with linear filtering and
   /// texture coordinate wrapping.
@@ -209,11 +209,7 @@ class SamplerState extends DeviceChild {
 
 
   String toString() {
-    return 'SamplerState name=$name '
-           'addressU=${TextureAddressMode.stringify(_addressU)} '
-           'addressV=${TextureAddressMode.stringify(_addressV)} '
-           'minFilter=${TextureMinFilter.stringify(_minFilter)} '
-           'magFilter=${TextureMinFilter.stringify(_magFilter)}';
+    return 'SamplerState name=$name ' 'addressU=${TextureAddressMode.stringify(_addressU)} ' 'addressV=${TextureAddressMode.stringify(_addressV)} ' 'minFilter=${TextureMinFilter.stringify(_minFilter)} ' 'magFilter=${TextureMinFilter.stringify(_magFilter)}';
   }
 
   /// Serializes the [SamplerState] to a JSON.

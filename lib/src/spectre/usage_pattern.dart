@@ -32,14 +32,13 @@ class UsagePattern extends Enum {
   static const int Default = StaticDraw;
 
   static Map<String, int> _values = {
-    'UsagePattern.StreamDraw' : StreamDraw,
-    'UsagePattern.StaticDraw' : StaticDraw,
-    'UsagePattern.DynamicDraw' : DynamicDraw
+    'UsagePattern.StreamDraw': StreamDraw,
+    'UsagePattern.StaticDraw': StaticDraw,
+    'UsagePattern.DynamicDraw': DynamicDraw
   };
 
   /// Convert a [String] to a [UsagePattern].
-  static int parse(String name, [int dflt = Default]) =>
-      Enum._parse(_values, name, dflt);
+  static int parse(String name, [int dflt = Default]) => Enum._parse(_values, name, dflt);
   /// Convert a [UsagePattern] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.
